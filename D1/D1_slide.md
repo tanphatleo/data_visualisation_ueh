@@ -3,16 +3,16 @@ marp: true
 theme: default
 ---
 
-# My First Presentation
-Welcome to my slide deck!
+# Welcome to data visualisation
+Phat T Pham
+tanphat.leo@gmail.com 
 
 ---
 
-## This is Slide 2
-Marp separates slides using three dashes.
-
-* Bullet point 1
-* Bullet point 2
+## Tools used in this course
+Tools we used in this course.
+* Microsoft Excel 
+* Google Colab (Python)
 
 ---
 
@@ -21,4 +21,8 @@ You can use standard markdown for code blocks:
 
 ```python 
 for i in [1,2,3]:
+
     print(i)
+```
+
+---
