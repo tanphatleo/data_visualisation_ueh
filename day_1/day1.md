@@ -351,7 +351,7 @@ style: |
 
 **Course Introduction · Data Fundamentals · Tools · Data Types**
 
-*9-week programme · Excel · Google Sheets · Python*
+*9-week programme · Excel · Python*
 
 ---
 
@@ -362,20 +362,22 @@ style: |
 <div>
 
 **Morning**
-1. Data → Information → Insight
-2. Why visualisation matters
-3. The visualisation workflow
-4. Our three tools
+1. Our tools
+2. Data → Information → Insight
+3. Why visualisation matters
+4. The visualisation workflow
+
 
 </div>
 
 <div>
 
 **Afternoon**
-5. Data types — the full picture
-6. Which data type → which chart?
-7. Hands-on exercise
-8. Q & A + homework
+5. Data types & why they matter
+6. How to choose the right chart
+7. How to make an effective chart
+8. Hands-on exercise
+9. Q & A + homework
 
 </div>
 
@@ -390,6 +392,149 @@ style: |
 <!-- _class: divider -->
 
 <span class="part-no">01</span>
+
+# Our Tools
+
+## Excel · Python · *maybe* AI
+
+---
+
+
+## Three Tools, One Workflow
+
+<div class="cols">
+
+<div class="card">
+
+### Microsoft Excel
+
+- Business reports
+- Quick prototypes
+- PivotTables
+- One-off analysis
+
+<br>
+
+Insert → **Charts wizard**
+
+</div>
+
+
+
+<div class="card warm">
+
+### Python 🐍
+
+- Large datasets
+- Automation & scripts
+- Publication quality
+- Reproducible analysis
+
+`matplotlib` `seaborn` `plotly`
+
+</div>
+
+</div>
+
+<br>
+
+*Knowing **which tool to reach for** is itself a professional skill.*
+
+---
+
+## Excel — Core Skills We Will Cover
+
+<div class="cols">
+
+<div>
+
+**Data work**
+- PivotTable — group, aggregate, pivot
+- VLOOKUP / XLOOKUP — merge tables
+- Conditional formatting
+- Data validation
+
+<br>
+
+**Charts**
+Line · Bar · Waterfall
+Funnel · Stock (Candlestick) · Combo
+
+</div>
+
+<div>
+
+![w:350px](images/ex01_table.png)
+
+</div>
+
+</div>
+
+---
+
+## Python — Three Libraries, Three Purposes
+
+<div class="cols3">
+
+<div class="card">
+
+### matplotlib
+
+The **foundation**. Full manual control over every element.
+
+```python
+import matplotlib.pyplot as plt
+
+plt.plot(months, revenue,
+         color='#0D1A63')
+plt.title('Monthly Revenue')
+plt.show()
+```
+
+</div>
+
+<div class="card mid">
+
+### seaborn
+
+**Statistical charts** with minimal code. Built on matplotlib.
+
+```python
+import seaborn as sns
+
+sns.boxplot(
+  x='Group',
+  y='Score',
+  data=df
+)
+```
+
+</div>
+
+<div class="card warm">
+
+### plotly
+
+**Interactive** charts — hover, zoom, filter. Web & dashboards.
+
+```python
+import plotly.express as px
+
+fig = px.bar(df,
+  x='Month',
+  y='Revenue')
+fig.show()
+```
+
+</div>
+
+</div>
+
+---
+
+<!-- _class: divider -->
+
+<span class="part-no">02</span>
 
 # What Is Data?
 
@@ -465,14 +610,7 @@ Table record each transaction:
 
 Sum of transactions by month:
 
-| Month | Revenue |
-|---|---|
-| Jan | 42 |
-| Feb | 55 |
-| Mar | 48 |
-| Apr | 62 |
-| May | 78 |
-| Jun | 85 |
+![w:340px](images/ex01_table.png)
 
 </div>
 </div>
@@ -532,37 +670,30 @@ Information that drives **action** — the "so what?" answer.
 
 <div>
 
-**Without a chart** — find the biggest monthly jump:
+**Without a chart**:
 
-| Month | Revenue |
-|---|---|
-| Jan | 42 |
-| Feb | 55 |
-| Mar | 48 |
-| Apr | 62 |
-| May | 78 |
-| Jun | 85 |
+![w:350px](images/ex01_table.png)
 
-*How long did that take?*
 
 </div>
 
 <div>
 
-**With a line chart** — answer in under a second:
-
-![w:600px](images/day_1_line.png)
-
-
-```
-
-*Apr → May (+16k) is the biggest jump.*
-
-```
+**What insight can you see from the data?**
 
 </div>
 
+
+---
+## Why Visualisation Matters
+<div>
+
+**With a chart**:
+
+<img src="images/Ex01_F05.png" style="max-width:100%; object-fit:contain;">
+
 </div>
+
 ---
 
 ## The Same Numbers — Three Levels
@@ -575,11 +706,6 @@ Information that drives **action** — the "so what?" answer.
 
 <br>
 
-<div class="box">
-
-**The analyst's job:** move every stakeholder from the left column to the right column — as fast as possible.
-
-</div>
 
 ---
 
@@ -616,349 +742,26 @@ Raw Data ▶ Clean & Structure ▶ Presentation Table
 
 Use Excel formulas or pivot table to report on sale by month of the year 2019 and 2020.
 
+![w:200px](images/qr_ex01_raw.png)
+
 </div>
 
 
 ---
 ## Ex01.01
 
-![w:600px](images/ex01_table.png)
+![w:350px](images/ex01_table.png)
 <!-- estimation 15 minute -->
 
 ---
 
 <!-- _class: divider -->
 
-<span class="part-no">02</span>
-
-# Our Tools
-
-## Excel · Google Sheets · Python
-
----
-
-
-## Three Tools, One Workflow
-
-<div class="cols3">
-
-<div class="card">
-
-### Microsoft Excel
-
-- Business reports
-- Quick prototypes
-- PivotTables
-- One-off analysis
-
-<br>
-
-Insert → **Charts wizard**
-
-</div>
-
-<div class="card">
-
-### Google Sheets
-
-- Shared dashboards
-- Live data feeds
-- Team collaboration
-- Cloud access
-
-<br>
-
-Insert → **Chart panel**
-
-</div>
-
-<div class="card warm">
-
-### Python 🐍
-
-- Large datasets
-- Automation & scripts
-- Publication quality
-- Reproducible analysis
-
-`matplotlib` `seaborn` `plotly`
-
-</div>
-
-</div>
-
-<br>
-
-*Knowing **which tool to reach for** is itself a professional skill.*
-
----
-
-## Excel — Core Skills We Will Cover
-
-<div class="cols">
-
-<div>
-
-**Data work**
-- PivotTable — group, aggregate, pivot
-- VLOOKUP / XLOOKUP — merge tables
-- Conditional formatting
-- Data validation
-
-<br>
-
-**Charts**
-Line · Bar · Pie · Waterfall
-Funnel · Stock (Candlestick) · Combo
-
-</div>
-
-<div>
-
-![w:600px](images/ex01_table.png)
-
-</div>
-
-</div>
-
----
-
-## Google Sheets — When to Choose It
-
-<div class="cols">
-
-<div>
-
-**Strengths over Excel**
-
-- Real-time multi-user editing
-- Built-in `QUERY()` — SQL-like filtering
-- `IMPORTRANGE()` — live data from another sheet
-- Free, browser-based, easy sharing
-- Native connection to Google Data Studio
-
-</div>
-
-<div>
-
-| Situation | Choose |
-|---|---|
-| Colleagues editing simultaneously | **Sheets** |
-| Data stays on your machine | **Excel** |
-| Pulling live web / API data | **Sheets** |
-| Complex macros / VBA | **Excel** |
-| Sharing with non-Office users | **Sheets** |
-| Large files (> 100MB) | **Excel** |
-
-</div>
-
-</div>
-
----
-
-## Python — Three Libraries, Three Purposes
-
-<div class="cols3">
-
-<div class="card">
-
-### matplotlib
-
-The **foundation**. Full manual control over every element.
-
-```python
-import matplotlib.pyplot as plt
-
-plt.plot(months, revenue,
-         color='#0D1A63')
-plt.title('Monthly Revenue')
-plt.show()
-```
-
-</div>
-
-<div class="card mid">
-
-### seaborn
-
-**Statistical charts** with minimal code. Built on matplotlib.
-
-```python
-import seaborn as sns
-
-sns.boxplot(
-  x='Group',
-  y='Score',
-  data=df
-)
-```
-
-</div>
-
-<div class="card warm">
-
-### plotly
-
-**Interactive** charts — hover, zoom, filter. Web & dashboards.
-
-```python
-import plotly.express as px
-
-fig = px.bar(df,
-  x='Month',
-  y='Revenue')
-fig.show()
-```
-
-</div>
-
-</div>
-
----
-
-
-<!-- _class: divider -->
-
 <span class="part-no">03</span>
-
-# Chart Types by Purpose
-
-## Comparison · Composition · Relationship · Distribution
-
----
-
-## Chart Types — By Purpose
-
-<div class="cols4">
-<div>
-
-### Comparison
-<div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
-<div class="chart-thumb-sm"><p>Line</p><img src="images/chart_types/chart02_line.png"></div>
-<div class="chart-thumb-sm"><p>Slope</p><img src="images/chart_types/chart04_slope.png"></div>
-
-</div>
-<div>
-
-### Composition
-<div class="chart-thumb-sm"><p>Donut</p><img src="images/chart_types/chart05_donut.png"></div>
-<div class="chart-thumb-sm"><p>Treemap</p><img src="images/chart_types/chart08_treemap.png"></div>
-<div class="chart-thumb-sm"><p>Stacked Area</p><img src="images/chart_types/chart_stacked_area.png"></div>
-
-</div>
-<div>
-
-### Relationship
-<div class="chart-thumb-sm"><p>Scatter</p><img src="images/chart_types/chart09b_scatter_orange.png"></div>
-<div class="chart-thumb-sm"><p>Bubble</p><img src="images/chart_types/chart10b_bubble_orange.png"></div>
-<div class="chart-thumb-sm"><p>Heatmap</p><img src="images/chart_types/chart_heatmap.png"></div>
-
-</div>
-<div>
-
-### Distribution
-<div class="chart-thumb-sm"><p>Histogram</p><img src="images/chart_types/chart_histogram_orange.png"></div>
-<div class="chart-thumb-sm"><p>Box Plot</p><img src="images/chart_types/chart_box_plot_orange.png"></div>
-<div class="chart-thumb-sm"><p>CDF</p><img src="images/chart_types/chart_cdf.png"></div>
-
-</div>
-</div>
-
----
-
-<!-- _class: divider -->
-
-<span class="part-no">03</span>
-
-# Chart Types by Function
-
-## Finance · Sales & Marketing · Science & Research
-
----
-## Finance Charts — Trends & Composition
-
-<div class="cols4">
-<div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
-<div class="chart-thumb-sm"><p>Line</p><img src="images/chart_types/chart02b_line_dual.png"></div>
-<div class="chart-thumb-sm"><p>Stacked Column</p><img src="images/chart_types/chart_stacked_column.png"></div>
-<div class="chart-thumb-sm"><p>100% Stacked Column</p><img src="images/chart_types/chart_stacked_column_100.png"></div>
-<div class="chart-thumb-sm"><p>Stacked Area</p><img src="images/chart_types/chart_stacked_area.png"></div>
-<div class="chart-thumb-sm"><p>100% Stacked Area</p><img src="images/chart_types/chart_stacked_area_100.png"></div>
-<div class="chart-thumb-sm"><p>Area</p><img src="images/chart_types/chart03_area.png"></div>
-<div class="chart-thumb-sm"><p>Waterfall</p><img src="images/chart_types/chart06_waterfall.png"></div>
-</div>
-
----
-## Finance Charts — KPI, Prices & Allocation
-
-<div class="cols3">
-<div class="chart-thumb-sm"><p>Candlestick — OHLC stock prices</p><img src="images/chart_types/chart07_candlestick.png"></div>
-<div class="chart-thumb-sm"><p>Bullet — KPI vs target</p><img src="images/chart_types/chart_bullet.png"></div>
-<div class="chart-thumb-sm"><p>Gauge — single KPI dial</p><img src="images/chart_types/chart_gauge.png"></div>
-<div class="chart-thumb-sm"><p>Treemap — portfolio / budget breakdown</p><img src="images/chart_types/chart08_treemap.png"></div>
-<div class="chart-thumb-sm"><p>Donut — asset / revenue mix</p><img src="images/chart_types/chart05_donut.png"></div>
-<div class="chart-thumb-sm"><p>Scatter — risk vs return analysis</p><img src="images/chart_types/chart09b_scatter_orange.png"></div>
-</div>
-
----
-
-## Sales & Marketing Charts — Comparison & Composition
-
-<div class="cols4">
-<div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
-<div class="chart-thumb-sm"><p>Line</p><img src="images/chart_types/chart02b_line_dual.png"></div>
-<div class="chart-thumb-sm"><p>Slope</p><img src="images/chart_types/chart04_slope.png"></div>
-<div class="chart-thumb-sm"><p>Area</p><img src="images/chart_types/chart03_area.png"></div>
-<div class="chart-thumb-sm"><p>Stacked Column</p><img src="images/chart_types/chart_stacked_column.png"></div>
-<div class="chart-thumb-sm"><p>Stacked Area</p><img src="images/chart_types/chart_stacked_area.png"></div>
-<div class="chart-thumb-sm"><p>Donut</p><img src="images/chart_types/chart05_donut.png"></div>
-<div class="chart-thumb-sm"><p>Radar</p><img src="images/chart_types/chart_radar.png"></div>
-</div>
-
----
-
-## Sales & Marketing Charts — Flow, Pipeline & Insights
-
-<div class="cols4">
-<div class="chart-thumb-sm"><p>Funnel</p><img src="images/chart_types/chart11_funnel.png"></div>
-<div class="chart-thumb-sm"><p>Alluvial</p><img src="images/chart_types/chart36_alluvial.png"></div>
-<div class="chart-thumb-sm"><p>Sankey</p><img src="images/chart_types/chart37_sankey.png"></div>
-<div class="chart-thumb-sm"><p>Bubble</p><img src="images/chart_types/chart10b_bubble_orange.png"></div>
-<div class="chart-thumb-sm"><p>Scatter</p><img src="images/chart_types/chart09b_scatter_orange.png"></div>
-<div class="chart-thumb-sm"><p>Heatmap</p><img src="images/chart_types/chart_heatmap.png"></div>
-<div class="chart-thumb-sm"><p>Treemap</p><img src="images/chart_types/chart08_treemap.png"></div>
-<div class="chart-thumb-sm"><p>Pictogram</p><img src="images/chart_types/chart_pictogram.png"></div>
-</div>
-
----
-
-## Science & Research Charts — Relationships & Patterns
-
-<div class="cols3">
-<div class="chart-thumb-sm"><p>Scatter — correlation (2 variables)</p><img src="images/chart_types/chart09_scatter.png"></div>
-<div class="chart-thumb-sm"><p>Bubble — 3-variable relationship</p><img src="images/chart_types/chart10b_bubble_orange.png"></div>
-<div class="chart-thumb-sm"><p>Radar — multi-attribute profile</p><img src="images/chart_types/chart_radar.png"></div>
-<div class="chart-thumb-sm"><p>Heatmap — patterns across two dimensions</p><img src="images/chart_types/chart_heatmap.png"></div>
-<div class="chart-thumb-sm"><p>Choropleth — metric by region</p><img src="images/chart_types/chart_choropleth.png"></div>
-<div class="chart-thumb-sm"><p>Line — time-series tracking</p><img src="images/chart_types/chart02b_line_dual.png"></div>
-</div>
-
----
-
-## Science & Research Charts — Distributions
-
-<div class="cols3">
-<div class="chart-thumb-sm"><p>Histogram — frequency distribution</p><img src="images/chart_types/chart_histogram_orange.png"></div>
-<div class="chart-thumb-sm"><p>Histogram + KDE — with density curve</p><img src="images/chart_types/chart_histogram_line.png"></div>
-<div class="chart-thumb-sm"><p>CDF — cumulative probability</p><img src="images/chart_types/chart_cdf.png"></div>
-<div class="chart-thumb-sm"><p>Box Plot — median & spread</p><img src="images/chart_types/chart_box_plot_orange.png"></div>
-</div>
-
----
 
 # Data Types
 
-## A Important Concept in Visualisation
+## An Important Concept in Visualisation
 
 ---
 
@@ -968,7 +771,7 @@ fig.show()
 
 <div>
 
-### Continuous
+## Continuous
 
 Can take **any value** in a range — infinitely many possible values exist between two points.
 
@@ -989,7 +792,7 @@ Line · Scatter · Histogram · Box Plot
 
 <div>
 
-### Discrete
+## Discrete
 
 **Countable whole numbers** only.
 You cannot have 2.5 customers.
@@ -1019,7 +822,7 @@ Bar · Column · Dot Plot
 
 <div>
 
-### Nominal
+## Nominal
 
 Categories with **no natural order**.
 You cannot say North > South.
@@ -1035,13 +838,13 @@ You cannot say North > South.
 <br>
 
 **Key charts**
-Bar · Pie · Donut · Treemap
+Bar · Donut · Treemap
 
 </div>
 
 <div>
 
-### Ordinal
+## Ordinal
 
 Categories **with a meaningful order** — but the gap between levels may not be equal.
 
@@ -1132,18 +935,44 @@ Data with a **location** component.
 
 **Geo heatmap** — density of events (customer clusters)
 
-*We cover choropleth maps using `plotly` in Part 2.*
+*We cover choropleth maps using `plotly` in the Tools section.*
 
 </div>
 
 </div>
 
 ---
+
+## Why Data Types Matter
+
+**The data type determines the chart — not the other way around.**
+
+<div class="box">
+Trying to draw a line chart on nominal categories, or a donut chart on continuous data, produces charts that are meaningless — or actively misleading.
+</div>
+
+<br>
+
+| Data type | Examples | Suitable charts |
+|---|---|---|
+| **Continuous** | Revenue, temperature, height | Line, scatter, histogram |
+| **Discrete** | Customers, units, page views | Bar, dot plot |
+| **Nominal** | Country, product name, channel | Bar, treemap |
+| **Ordinal** | Rating: Poor / Good / Excellent | Bar, heatmap |
+| **Temporal** | Dates, timestamps | Line, area, candlestick |
+| **Geospatial** | City, coordinates, country | Map, choropleth |
+
+---
+
 ## Ex01.02
 
-# Hands-On
+<div class="box-navy" style="width: 100%;">
 
-# Identify Data Types in a Dataset
+**Identify the data type of each column in the Ex01 dataset.**
+
+For each column, classify as: Continuous · Discrete · Nominal · Ordinal · Temporal · Geospatial
+
+</div>
 
 ---
 
@@ -1167,29 +996,6 @@ Data with a **location** component.
 | **device_type** | The device type customer used to order - Nominal | Categorical - Nominal |
 | **order_id** | unique order_id | Categorical - Nominal |
 
-
----
-
-
-## Why Data Types Matter
-
-**The data type determines the chart — not the other way around.**
-
-<div class="box">
-Trying to draw a line chart on nominal categories, or a pie chart on continuous data, produces charts that are meaningless — or actively misleading.
-</div>
-
-<br>
-
-| Data type | Examples | Suitable charts |
-|---|---|---|
-| **Continuous** | Revenue, temperature, height | Line, scatter, histogram |
-| **Discrete** | Customers, units, page views | Bar, dot plot |
-| **Nominal** | Country, product name, channel | Bar, pie, treemap |
-| **Ordinal** | Rating: Poor / Good / Excellent | Bar, heatmap |
-| **Temporal** | Dates, timestamps | Line, area, candlestick |
-| **Geospatial** | City, coordinates, country | Map, choropleth |
-
 ---
 
 <!-- _class: divider -->
@@ -1198,7 +1004,7 @@ Trying to draw a line chart on nominal categories, or a pie chart on continuous 
 
 # How to Choose the Right Chart
 
-## Abela's Framework · FT Visual Vocabulary
+## Abela's Framework · FT Visual Vocabulary · Domain Examples
 
 ---
 
@@ -1249,7 +1055,7 @@ Developed by the Financial Times visual journalism team. Covers **59 chart types
 
 ---
 
-## FT Visual Vocabulary
+## Financial Times Visual Vocabulary
 
 <div style="display:grid;grid-template-columns:repeat(9,1fr);gap:5px;margin-top:6px;">
 
@@ -1295,7 +1101,7 @@ Developed by the Financial Times visual journalism team. Covers **59 chart types
 
 <div style="text-align:center;">
 <p style="font-size:0.45em;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:0.03em;border-bottom:2px solid var(--orange);padding-bottom:2px;margin:0 0 5px;">Part of Whole</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/pie.svg" style="width:100%;height:52px;object-fit:contain;display:block;margin:0 auto 2px;">
+<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/voronoi.svg" style="width:100%;height:52px;object-fit:contain;display:block;margin:0 auto 2px;">
 <img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/doughnut.svg" style="width:100%;height:52px;object-fit:contain;display:block;margin:0 auto 2px;">
 <img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/treemap.svg" style="width:100%;height:52px;object-fit:contain;display:block;margin:0 auto 2px;">
 <img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/column-stacked.svg" style="width:100%;height:52px;object-fit:contain;display:block;margin:0 auto;">
@@ -1331,555 +1137,137 @@ Developed by the Financial Times visual journalism team. Covers **59 chart types
 
 ---
 
-## FT Visual Vocab - Deviation 
-
-Emphasise variations (+/-) from a fixed reference point. Typically the reference point is zero but it can also be a target or a long-term average. Can also be used to show sentiment (positive/neutral/negative)
+## Chart Types — By Purpose
 
 <div class="cols4">
-<div class="chart-thumb-sm">
-<p>bar-diverging</p>
-<img src="ft_visual_vocab/deviation/Visual Vocabulary_files/bar-diverging.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A simple standard bar chart that can handle both negative and positive magnitude values</div>
-</div>
-<div class="chart-thumb-sm">
-<p>bar-diverging-stacked</p>
-<img src="ft_visual_vocab/deviation/Visual Vocabulary_files/bar-diverging-stacked.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Perfect for presenting survey results which involve sentiment (eg disagree, neutral, agreed</div>
-</div>
-<div class="chart-thumb-sm">
-<p>spine-chart</p>
-<img src="ft_visual_vocab/deviation/Visual Vocabulary_files/spine.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Splits a single value into 2 contrasting components (eg Male/Female)</div>
-</div>
-<div class="chart-thumb-sm">
-<p>line-surplus-deficit-filled</p>
-<img src="ft_visual_vocab/deviation/Visual Vocabulary_files/line-surplur-defecit-fill.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">The shaded area of these charts allows a balance to be shown;  either against a baseline or between two serie</div>
-</div>
-</div>
+<div>
 
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
+### Comparison
+<div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
+<div class="chart-thumb-sm"><p>Line</p><img src="images/chart_types/chart02_line.png"></div>
+<div class="chart-thumb-sm"><p>Slope</p><img src="images/chart_types/chart04_slope.png"></div>
+
+</div>
+<div>
+
+### Composition
+<div class="chart-thumb-sm"><p>Donut</p><img src="images/chart_types/chart05_donut.png"></div>
+<div class="chart-thumb-sm"><p>Treemap</p><img src="images/chart_types/chart08_treemap.png"></div>
+<div class="chart-thumb-sm"><p>Stacked Area</p><img src="images/chart_types/chart_stacked_area.png"></div>
+
+</div>
+<div>
+
+### Relationship
+<div class="chart-thumb-sm"><p>Scatter</p><img src="images/chart_types/chart09b_scatter_orange.png"></div>
+<div class="chart-thumb-sm"><p>Bubble</p><img src="images/chart_types/chart10b_bubble_orange.png"></div>
+<div class="chart-thumb-sm"><p>Heatmap</p><img src="images/chart_types/chart_heatmap.png"></div>
+
+</div>
+<div>
+
+### Distribution
+<div class="chart-thumb-sm"><p>Histogram</p><img src="images/chart_types/chart_histogram_orange.png"></div>
+<div class="chart-thumb-sm"><p>Box Plot</p><img src="images/chart_types/chart_box_plot_orange.png"></div>
+<div class="chart-thumb-sm"><p>CDF</p><img src="images/chart_types/chart_cdf.png"></div>
+
+</div>
+</div>
 
 ---
 
-## FT Visual Vocab - Correlation 
-
-Show the relationship between two or more variables. Be mindful that, unless you tell them otherwise, many readers will assume the relationships you show them to be causal (i.e. one causes the other)
+## Finance Charts — Trends & Composition
 
 <div class="cols4">
-<div class="chart-thumb-sm">
-<p>scatterplot</p>
-<img src="ft_visual_vocab/correlation/Visual Vocabulary_files/scatterplot.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">The standard way to show the relationship between two variables, each of which has its own axis</div>
-</div>
-<div class="chart-thumb-sm">
-<p>line-column</p>
-<img src="ft_visual_vocab/correlation/Visual Vocabulary_files/line-column.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A good way of showing the relationship between an amount (columns) and a rate (line)</div>
-</div>
-<div class="chart-thumb-sm">
-<p>scatterplot-connected</p>
-<img src="ft_visual_vocab/correlation/Visual Vocabulary_files/scatterplot-connected.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Usually used to show how the relationship between 2 variables has changed over time</div>
+<div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
+<div class="chart-thumb-sm"><p>Line</p><img src="images/chart_types/chart02b_line_dual.png"></div>
+<div class="chart-thumb-sm"><p>Stacked Column</p><img src="images/chart_types/chart_stacked_column.png"></div>
+<div class="chart-thumb-sm"><p>100% Stacked Column</p><img src="images/chart_types/chart_stacked_column_100.png"></div>
+<div class="chart-thumb-sm"><p>Stacked Area</p><img src="images/chart_types/chart_stacked_area.png"></div>
+<div class="chart-thumb-sm"><p>100% Stacked Area</p><img src="images/chart_types/chart_stacked_area_100.png"></div>
+<div class="chart-thumb-sm"><p>Area</p><img src="images/chart_types/chart03_area.png"></div>
+<div class="chart-thumb-sm"><p>Waterfall</p><img src="images/chart_types/chart06_waterfall.png"></div>
 </div>
 
-</div>
+---
+## Finance Charts — KPI, Prices & Allocation
 
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
+<div class="cols3">
+<div class="chart-thumb-sm"><p>Candlestick — OHLC stock prices</p><img src="images/chart_types/chart07_candlestick.png"></div>
+<div class="chart-thumb-sm"><p>Bullet — KPI vs target</p><img src="images/chart_types/chart_bullet.png"></div>
+<div class="chart-thumb-sm"><p>Gauge — single KPI dial</p><img src="images/chart_types/chart_gauge.png"></div>
+<div class="chart-thumb-sm"><p>Treemap — portfolio / budget breakdown</p><img src="images/chart_types/chart08_treemap.png"></div>
+<div class="chart-thumb-sm"><p>Donut — asset / revenue mix</p><img src="images/chart_types/chart05_donut.png"></div>
+
+</div>
 
 ---
 
-## FT Visual Vocab - Correlation (cont.)
+## Sales & Marketing Charts — Comparison & Composition
 
 <div class="cols4">
-<div class="chart-thumb-sm">
-<p>XY-heatmap</p>
-<img src="ft_visual_vocab/correlation/Visual Vocabulary_files/XY-heatmap.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A good way of showing the patterns between 2 categories of data, less good at showing fine differences in amounts</div>
+<div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
+<div class="chart-thumb-sm"><p>Line</p><img src="images/chart_types/chart02b_line_dual.png"></div>
+<div class="chart-thumb-sm"><p>Slope</p><img src="images/chart_types/chart04_slope.png"></div>
+<div class="chart-thumb-sm"><p>Area</p><img src="images/chart_types/chart03_area.png"></div>
+<div class="chart-thumb-sm"><p>Stacked Column</p><img src="images/chart_types/chart_stacked_column.png"></div>
+<div class="chart-thumb-sm"><p>Stacked Area</p><img src="images/chart_types/chart_stacked_area.png"></div>
+<div class="chart-thumb-sm"><p>Donut</p><img src="images/chart_types/chart05_donut.png"></div>
+<div class="chart-thumb-sm"><p>Radar</p><img src="images/chart_types/chart_radar.png"></div>
 </div>
-
-<div class="chart-thumb-sm">
-<p>Bubble</p>
-<img src="ft_visual_vocab/correlation/Visual Vocabulary_files/bubble.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Like a scatterplot, but adds additional detail by sizing the circles according to a third variable</div>
-</div>
-
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
 
 ---
 
-## FT Visual Vocab - Change V Time 
-
-Give emphasis to changing trends. These can be short (intra-day) movements or extended series traversing decades or centuries: Choosing the correct time period is important to provide suitable context for the reader
+## Sales & Marketing Charts — Flow, Pipeline & Insights
 
 <div class="cols4">
-<div class="chart-thumb-sm">
-<p>line</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/line.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">The standard way to show a changing time series. If data are irregular, consider markers to represent data points</div>
+<div class="chart-thumb-sm"><p>Funnel</p><img src="images/chart_types/chart11_funnel.png"></div>
+<div class="chart-thumb-sm"><p>Alluvial</p><img src="images/chart_types/chart36_alluvial.png"></div>
+<div class="chart-thumb-sm"><p>Sankey</p><img src="images/chart_types/chart37_sankey.png"></div>
+<div class="chart-thumb-sm"><p>Heatmap</p><img src="images/chart_types/chart_heatmap.png"></div>
+<div class="chart-thumb-sm"><p>Treemap</p><img src="images/chart_types/chart08_treemap.png"></div>
+<div class="chart-thumb-sm"><p>Pictogram</p><img src="images/chart_types/chart_pictogram.png"></div>
 </div>
-<div class="chart-thumb-sm">
-<p>column-timeline</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/column-timeline.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Columns work well for showing change over time - but usually best with only one series of data at a time</div>
-</div>
-<div class="chart-thumb-sm">
-<p>column-line-timeline</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/column-line-timeline.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A good way of showing the relationship over time between an amount (columns) and a rate (line)</div>
-</div>
-<div class="chart-thumb-sm">
-<p>stock-price</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/stock-price.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Usually focused on day-to-day activity, these charts show opening/closing and hi/low points of each day</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
 
 ---
 
-## FT Visual Vocab - Change V Time (cont.)
+## Science & Research Charts — Relationships & Patterns
 
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>slope</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/slope-timeline.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Good for showing changing data as long as the data can be simplified into 2 or 3 points without missing a key part of story</div>
+<div class="cols3">
+<div class="chart-thumb-sm"><p>Scatter — correlation (2 variables)</p><img src="images/chart_types/chart09b_scatter_orange.png"></div>
+<div class="chart-thumb-sm"><p>Bubble — 3-variable relationship</p><img src="images/chart_types/chart10b_bubble_orange.png"></div>
+<div class="chart-thumb-sm"><p>Radar — multi-attribute profile</p><img src="images/chart_types/chart_radar.png"></div>
+<div class="chart-thumb-sm"><p>Heatmap — patterns across two dimensions</p><img src="images/chart_types/chart_heatmap.png"></div>
+<div class="chart-thumb-sm"><p>Choropleth — metric by region</p><img src="images/chart_types/chart_choropleth.png"></div>
+<div class="chart-thumb-sm"><p>Line — time-series tracking</p><img src="images/chart_types/chart02b_line_dual.png"></div>
 </div>
-<div class="chart-thumb-sm">
-<p>area</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/area.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Use with care. These are good at showing changes to total, but seeing change in components can be very difficult.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>fan</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/fan.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Use to show the uncertainty in future projections - usually this grows the further forward to projection</div>
-</div>
-<div class="chart-thumb-sm">
-<p>scatterplot-line-timeline</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/scatterplot-line-timeline.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A good way of showing changing data for two variables whenever there is a relatively clear pattern of progression. Connected scatterplot</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
 
 ---
 
-## FT Visual Vocab - Change V Time (cont.)
+## Science & Research Charts — Distributions
 
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>calendar-heatmap</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/calendar-heatmap.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A great way of showing temporal patterns (daily, weekly, monthly), at the expense of showing precision in quantity</div>
+<div class="cols3">
+<div class="chart-thumb-sm"><p>Histogram — frequency distribution</p><img src="images/chart_types/chart_histogram_orange.png"></div>
+<div class="chart-thumb-sm"><p>Histogram + KDE — with density curve</p><img src="images/chart_types/chart_histogram_line.png"></div>
+<div class="chart-thumb-sm"><p>CDF — cumulative probability</p><img src="images/chart_types/chart_cdf.png"></div>
+<div class="chart-thumb-sm"><p>Box Plot — median & spread</p><img src="images/chart_types/chart_box_plot_orange.png"></div>
 </div>
-<div class="chart-thumb-sm">
-<p>priestley timeline</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/priestley-timeline.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Great when date and duration are key elements of the story in the data</div>
-</div>
-<div class="chart-thumb-sm">
-<p>circles-timeline</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/circle-timeline.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Good for showing discrete values of varying size across multiple categories (eg earthquakes by contintent)</div>
-</div>
-<div class="chart-thumb-sm">
-<p>seismogram</p>
-<img src="ft_visual_vocab/change_v_time/Visual Vocabulary_files/seismogram.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Another alternative to the circle timeline for showing series where there are big variations in the data</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
 
 ---
 
-## FT Visual Vocab - Ranking 
+## Ex01.03 — Formulating Questions
 
-Use where an item’s position in an ordered list is more important than its absolute or relative value. Don’t be afraid to highlight the points of interest.
+<div class="box-navy" style="width: 100%;">
 
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>bar-ordered</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/bar-ordered.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Standard bar charts display the ranks of values much more easily when sorted into order</div>
+**Activity: What can we ask the data?**
+Take a moment to look at the dataset structure and data types.
+What are some analytical questions we can answer using this data? 
+![w:200px](images/qr_ex01_raw.png)
 </div>
-<div class="chart-thumb-sm">
-<p>column-ordered</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/column-ordered.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Standard column charts display the ranks of values much more easily when sorted into order</div>
-</div>
-<div class="chart-thumb-sm">
-<p>symbol-proportional-ordered</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/symbol-proportional-ordered.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Use when there are big variations between values and/or seeing fine differences between data is not so important.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>dot-plot-strip</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/dot-plot-strip.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Dots placed in order on a strip are a space-efficient method of laying out ranks across multiple categories.</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
 
 ---
 
-## FT Visual Vocab - Ranking (cont.)
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>slope</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/slope-ranking.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Perfect for showing how ranks have changed over time or vary between categories.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>lollipop-h</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/lollipop-h.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Lollipop charts draw more attention to the data value than standard bar/column and can also show rank effectively</div>
-</div>
-<div class="chart-thumb-sm">
-<p>lollipop-v</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/lollipop-v.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Lollipop charts draw more attention to the data value than standard bar/column and can also show rank effectively</div>
-</div>
-<div class="chart-thumb-sm">
-<p>bump</p>
-<img src="ft_visual_vocab/ranking/Visual Vocabulary_files/bump.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;"></div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Distribution 
-
-Show values in a dataset and how often they occur. The shape (or ‘skew’) of a distribution can be a memorable way of highlighting the lack of uniformity or equality in the data
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>histogram</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/histogram.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">The standard way to show a statistical distribution - keep the gaps between columns small to highlight the 'shape' of the data.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>boxplot</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/boxplot.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Summarise multiple distributions by showing the median (centre) and range of the data</div>
-</div>
-<div class="chart-thumb-sm">
-<p>violin</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/violin.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Similar to a box plot but more effective with complex distributions (data that cannot be summarised with simple average).</div>
-</div>
-<div class="chart-thumb-sm">
-<p>population-pyramis</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/population-pyramis.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A standard way for showing the age and sex breakdown of a population distribution; effectively, back to back histograms</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Distribution (cont.)
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>dot-plot-strip</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/dot-plot-strip-distribution.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Good for showing individual values in a distribution, can be a problem when too many dots have the same value</div>
-</div>
-<div class="chart-thumb-sm">
-<p>dot-plot</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/dot-plot.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A simple way of showing the range (min/max) of data across multiple categories.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>barcode</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/barcode.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Like dot strip plots, good for displaying all the data in a table,they work best when highlighting individual values.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>cumulative-curve</p>
-<img src="ft_visual_vocab/distribution/Visual Vocabulary_files/cumulative-curve.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A good way of showing how unequal a distribution is: y axis is always cumulative frequency, x axis is always a measure.</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Part Of Whole 
-
-Show how a single entity can be broken down into its component elements. If the reader’s interest is solely in the size of the components, consider a magnitude-type chart instead
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>column-stacked</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/column-stacked.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A simple way of showing part-to-whole relationships but can be difficult to read with more than a few components.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>bar-stacked-proportional</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/bar-stacked-proportional.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A good way of showing the size and proportion of data at the same time, as long as the data are not too complicated.</div>
-</div>
-
-<div class="chart-thumb-sm">
-<p>doughnut</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/doughnut.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Similar to a pie chart - but the centre can be a good way of making space to include more information about the data (eg. total)</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Part Of Whole (cont.)
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>treemap</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/treemap.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Use for hierarchical part-to-whole relationships; can be difficult to read when there are many small segments</div>
-</div>
-<div class="chart-thumb-sm">
-<p>Voronoi</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/voronoi.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A way of turning points into areas - any point within the area is closer to the central point than any other point</div>
-</div>
-<div class="chart-thumb-sm">
-<p>sunburst</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/sunburst.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Another way of visualisaing hierarchical part-to-whole relationships. Use sparingly (if at all) for obvious reasons.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>arc</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/arc.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A hemicycle, often used for visualising political results.</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Part Of Whole (cont.)
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>gridplot</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/gridplot.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Good for showing % information, they work best when used on whole numbers and work well in multiple layout form.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>Venn</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/venn.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Generally only used for schematic representation</div>
-</div>
-<div class="chart-thumb-sm">
-<p>Waterfall</p>
-<img src="ft_visual_vocab/part_of_whole/Visual Vocabulary_files/waterfall.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Can be useful for showing part-to-whole relationships where some of the components are negative.</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Magnitude 
-
-Show size comparisons. These can be relative (just being able to see larger/bigger) or absolute (need to see fine differences). Usually these show a ‘counted’ number (for example, barrels, dollars or people) rather than a calculated rate or per cent
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>Column</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/column-magnitude.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">The standard way to compare the size of things. Must always start at 0 on the axis</div>
-</div>
-<div class="chart-thumb-sm">
-<p>Bar</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/bar-magnitude.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">The standard way to compare the size of things. Must always start at 0 on the axis. Good when the data are not time series and labels have long category names</div>
-</div>
-<div class="chart-thumb-sm">
-<p>column-grouped</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/column-grouped.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">As per standard column but allows for multiple series. Can become tricky to read with more than 2 series</div>
-</div>
-<div class="chart-thumb-sm">
-<p>bar-grouped</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/bar-grouped-magnitude.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">As per standard bar but allows for multiple series. Can become tricky to read with more than 2 series</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Magnitude (cont.)
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>bar-stacked-proportional</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/bar-stacked-proportional-magnitude.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A good way of showing the size and proportion of data at the same time - as long as the data are not too complicated</div>
-</div>
-<div class="chart-thumb-sm">
-<p>symbol-proportional</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/symbol-proportional.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Use when there are big variations between values and/or seeing fne differences between data is not so important</div>
-</div>
-<div class="chart-thumb-sm">
-<p>isotope (pictogram)</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/isotope.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Excellent solution in some instances - use only with whole numbers (do not slice off an arm to represent a decimal).</div>
-</div>
-<div class="chart-thumb-sm">
-<p>lollipop-h</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/lollipop-h-magnitude.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Lollipop charts draw more attention to the data value than standard bar/column and can also show rank effectively</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Magnitude (cont.)
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>lollipop-v</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/lollipop-v-magnitude.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Lollipop charts draw more attention to the data value than standard bar/column and can also show rank effectively</div>
-</div>
-<div class="chart-thumb-sm">
-<p>Radar</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/radar.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A space-efficient way of showing value pf multiple variables -  but make sure they are organised in a way that makes sense to reader.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>Bullet</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/bullet.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;"></div>
-</div>
-<div class="chart-thumb-sm">
-<p>Parallel coordinates</p>
-<img src="ft_visual_vocab/magnitude/Visual Vocabulary_files/parallel coordinates.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">An alternative to radar charts - again, the arrngement of the variables is important. Usually benefits from highlighting values</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Spatial 
-
-Used only when precise locations or geographical patterns in data are more important to the reader than anything else.
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>basic-choropleth</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/basic-choropleth.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">The standard approach for putting data on a map - should always be rates rather than totals and use a sensible base geography.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>proportional-symbol</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/proportional-symbol.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Use for totals rather than rates  - be wary that small differences in data will be hard to see.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>flow</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/flow.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">For showing unambiguous movement across a map</div>
-</div>
-<div class="chart-thumb-sm">
-<p>contour</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/contour.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">For showing areas of equal value on a map. Can use deviation colour schemes for showing +/- values</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Spatial (cont.)
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>equalised-cartogram</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/equalised-cartogram.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Converting each unit on a map to a regular and equally-sized shape - good for representing voting regions with equal share.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>scaled-cartogram-value</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/scaled-cartogram-value.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Stretching and shrinking a map so that each area is sized according to a particular value.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>dot-density</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/dot-density.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Used to show the location of individual events/locations - make sure to annotate any patterns the reader should see.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>heat-map</p>
-<img src="ft_visual_vocab/spatial/Visual Vocabulary_files/heat-map.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Grid-based data values mapped with an intensity colour scale. As choropleth map - but not snapped to an admin/political unit.</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## FT Visual Vocab - Flow 
-
-Show the reader volumes or intensity of movement between two or more states or conditions. These might be logical sequences or geographical locations
-
-<div class="cols4">
-<div class="chart-thumb-sm">
-<p>sankey</p>
-<img src="ft_visual_vocab/flow/Visual Vocabulary_files/sankey.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Shows changes in flows from one condition to at least one other; good for tracing the eventual outcome of a complex process.</div>
-</div>
-<div class="chart-thumb-sm">
-<p>waterfall</p>
-<img src="ft_visual_vocab/flow/Visual Vocabulary_files/waterfall-flow.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Designed to show the sequencing of data through a flow process, typically budgets. Can include +/- components</div>
-</div>
-<div class="chart-thumb-sm">
-<p>chord</p>
-<img src="ft_visual_vocab/flow/Visual Vocabulary_files/chord.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">A complex but powerful diagram which can illustrate 2-way flows (and net winner) in a matrix</div>
-</div>
-<div class="chart-thumb-sm">
-<p>network</p>
-<img src="ft_visual_vocab/flow/Visual Vocabulary_files/network.svg">
-<div style="font-size: 0.6em; font-weight: normal; color: #444; text-transform: none; letter-spacing: normal; line-height: 1.4; margin: 8px auto 0; width: 75%; text-align: justify;">Used for showing the complexity and inter-connectdness of relationships of varying types.</div>
-</div>
-</div>
-
-<p style="font-size:0.45em; color:#7e7e7e; text-align:right; margin-top:16px;">Financial Times. (n.d.). <em>Visual vocabulary</em>. <a href="https://ft-interactive.github.io/visual-vocabulary/">https://ft-interactive.github.io/visual-vocabulary/</a></p>
-
----
-
-## 20 Analytical Questions for Ex01
+## 20 Analytical Questions for Ex01.03
 
 With our dataset mapped out, what can we ask it? Here are 20 questions we can answer using visualization:
 
@@ -1899,9 +1287,7 @@ With our dataset mapped out, what can we ask it? Here are 20 questions we can an
 
 --- 
 
-## 20 Analytical Questions for Ex01
-
-With our dataset mapped out, what can we ask it? Here are 20 questions we can answer using visualization:
+## 20 Analytical Questions (cont.)
 
 <div style="font-size: 1em; column-count: 2; column-gap: 40px;">
 
@@ -1917,6 +1303,274 @@ With our dataset mapped out, what can we ask it? Here are 20 questions we can an
 20. What is the distribution of order values (small vs large)?
 
 </div>
+
+---
+
+## Ex01.04 — Chart Selection Activity
+
+<div class="box-navy" style="width: 100%;">
+
+**Activity: Choose the Right Chart**
+
+1. One student selects a question from the 20 analytical questions.
+2. The class discusses and decides **what chart type** is best to answer it.
+3. Justify your choice based on the data types and the message you want to convey.
+
+</div>
+
+---
+
+##
+<!-- _class: divider -->
+
+<span class="part-no">05</span>
+
+# Chart Journey
+
+## From Table to Insight — A Practical Walkthrough
+
+---
+
+## Step 0 — The Presentation Table
+
+<div class="cols">
+
+<div style="margin-right:100px;">
+
+Before drawing any chart, you need a **clean presentation table** — aggregated, labelled, and ready to visualise.
+
+<br>
+
+This is the output of **Ex01.01**: monthly sales by year, condensed from thousands of raw transactions into 24 numbers.
+
+<br>
+
+
+</div>
+
+<div>
+
+<img src="images/ex01_table.png" style="margin-right:100px;width:350PX;  object-fit:contain;">
+
+</div>
+
+</div>
+
+---
+
+## Step 1 — Insert the Chart
+
+<div class="cols-1-2">
+
+<div>
+
+Pick the chart type that matches your data and question.
+
+*Two series · Monthly time axis → **Grouped Bar Chart***
+
+<br>
+
+<div class="box">
+
+**Raw first attempt — problems to fix:**
+- Y-axis shows raw numbers (`10,000,000`)
+- Title gives no analytical signal
+- Colours are default, no visual hierarchy
+
+</div>
+
+</div>
+
+<div>
+
+<img src="images/Ex01_F01.png" style="max-width:100%; object-fit:contain;">
+
+</div>
+
+</div>
+
+---
+
+## Step 2 — Format for Readability
+
+<div class="cols-1-2">
+
+<div>
+
+Clean up anything that **slows the reader down**.
+
+<br>
+
+<div class="box-navy">
+
+**What changed:**
+- Y-axis: `10,000,000` → `10M` (shorthand)
+- Title: year labels **bolded** and **colour-coded** to match the bars
+- Gridlines thinned; chart area decluttered
+
+</div>
+
+<br>
+
+
+</div>
+
+<div>
+
+<img src="images/Ex01_F02.png" style="max-width:100%; object-fit:contain;">
+
+</div>
+
+</div>
+
+---
+
+## Step 3 — Focus on the Story
+
+<div class="cols-1-2">
+
+<div>
+
+Decide what you want the reader to **notice first** — then make that visually obvious.
+
+<br>
+
+<div class="box">
+
+**What changed:**
+- All non-December bars **greyed out**
+- December data labels added: `8.7M` / `5.9M`
+- Callout annotation states the insight in plain language
+
+</div>
+
+<br>
+
+
+
+</div>
+
+<div>
+
+<img src="images/Ex01_F03.png" style="max-width:100%; object-fit:contain;">
+
+</div>
+
+</div>
+
+---
+
+## Step 4 — Add Context
+
+<div class="cols-1-2">
+
+<div>
+
+Layer in a second data series to show **why** the story matters.
+
+<br>
+
+<div class="box-navy">
+
+**What changed:**
+- Net accumulated revenue difference added as an **overlaid line chart** (combo chart)
+- December's sharp dip **confirms** the annotation
+
+</div>
+
+
+</div>
+
+<div>
+
+<img src="images/Ex01_F04.png" style="max-width:100%; object-fit:contain;">
+
+</div>
+
+</div>
+
+---
+
+## Step 5 — The Finished Chart
+
+
+
+
+<img src="images/Ex01_F05.png" style="max-width:100%; object-fit:contain;">
+
+<br>
+<br>
+<br>
+
+Final refinement: make sure the **spotlight lands exactly where the story is**.
+
+---
+
+## What if 2 Insights?
+
+
+<img src="images/Ex01_F06.png" style="max-width:100%; object-fit:contain;">
+<br>
+<br>
+
+A chart can carry **more than one story** — as long as each spotlight is clearly labelled and the two stories are directly connected.
+
+---
+
+## Alternative Presentation
+
+<img src="images/Ex01_F09.png" style="max-width:100%; object-fit:contain;">
+<br>
+<br>
+
+**Plot the difference directly**
+
+---
+
+## Alternative Presentation 2
+
+
+
+
+<img src="images/Ex01_F11.png" style="max-width:100%; object-fit:contain;">
+
+
+**How about line chart?**
+
+---
+
+## Alternative Presentation 3 — ❌ Don't Do This
+
+<div class="cols-1-2">
+
+<div style="">
+
+The same data — but this layout **breaks a fundamental rule**.
+
+
+<div class="box" style="border-left-color: #CC3300; background: #FFF0ED;">
+
+**What is wrong:**
+- Our eyes read horizontal flow as time sequence — left to right
+- A vertical time axis hides trends and makes the chart feel like a ranking, not a timeline
+
+</div>
+
+</div>
+
+<div style="margin-left:100px;">
+
+<img src="images/Ex01_F10.png" style="max-height:65%; object-fit:contain;">
+
+</div>
+
+</div>
+
+---
+
+<!-- _class: divider -->
+
+<span class="part-no">Ref</span>
 
 ---
 
@@ -1944,19 +1598,16 @@ Continuous · Discrete · Nominal · Ordinal · Temporal · Geospatial
 
 <div>
 
-**Tools**
-- **Excel** — fast, offline, business standard
-- **Sheets** — collaborative, cloud, live data
-- **Python** — powerful, automated, reproducible
-  - `matplotlib` foundations
-  - `seaborn` statistics
-  - `plotly` interactive
+**How to choose a chart**
+- Abela's tree — start with your message
+- FT Visual Vocabulary — 9 purpose families
+- Domain context — Finance, Sales, Science each have common patterns
 
 <hr>
 
-**Workflow**
-
-Raw Data → Clean Table → Chart → Insight
+**Tools**
+- **Excel** — fast, offline, business standard
+- **Python** — powerful, automated, reproducible
 
 </div>
 
@@ -1999,89 +1650,3 @@ Yale University Library. (2024, August). Data visualization: Common types of dat
 
 </div>
 
-
----
-
-<!-- _class: divider -->
-
-# Instructor Reference
-
-## Slide Timing Guide
-
----
-
-## Slide Timing Guide
-
-<div class="small-table">
-
-| # | Slide | Min | Accumulated |
-|---|-------|:---:|:---:|
-| 1 | Data Visualisation | 1 | 0:01 |
-| 2 | *(instructor intro / course overview)* | 2 | 0:03 |
-| 3 | Agenda — Day 1 | 3 | 0:06 |
-| 4 | **What Is Data?** *(divider)* | 0.5 | 0:06 |
-| 5 | Data · Information · Insight (1) | 3 | 0:10 |
-| 6 | Data · Information · Insight (2) | 3 | 0:12 |
-| 7 | Data · Information · Insight (3) | 3 | 0:16 |
-| 8 | Why Visualisation Matters | 4 | 0:20 |
-| 9 | The Same Numbers — Three Levels | 4 | 0:24 |
-| 10 | The Visualisation Workflow | 5 | 0:28 |
-| 11 | Ex01.01 | 3 | 0:32 |
-| 12 | Ex01 *(exercise)* | 15 | 0:46 |
-| 13 | **Our Tools** *(divider)* | 0.5 | 0:47 |
-| 14 | Three Tools, One Workflow | 4 | 0:51 |
-| 15 | Excel — Core Skills We Will Cover | 4 | 0:55 |
-| 16 | Google Sheets — When to Choose It | 3 | 0:58 |
-| 17 | Python — Three Libraries, Three Purposes | 5 | 1:03 |
-| 18 | **Chart Types by Purpose** *(divider)* | 0.5 | 1:04 |
-| 19 | Chart Types — By Purpose | 5 | 1:08 |
-| 20 | **Chart Types by Function** *(divider)* | 0.5 | 1:09 |
-| 21 | Finance Charts — Trends & Comparison | 3 | 1:12 |
-| 22 | Finance Charts — Composition | 3 | 1:15 |
-| 23 | Finance Charts — Relative Composition | 3 | 1:18 |
-| 24 | Finance Charts — KPI & Allocation | 3 | 1:21 |
-| 25 | Finance Charts — Prices & Performance | 3 | 1:24 |
-| 26 | Sales & Marketing Charts — Trends & Mix | 3 | 1:27 |
-| 27 | Sales & Marketing Charts — Composition | 3 | 1:30 |
-| 28 | Sales & Marketing Charts — Flow & Pipeline | 3 | 1:33 |
-| 29 | Sales & Marketing Charts — Comparison | 3 | 1:36 |
-| 30 | Science & Research Charts — Relationships | 3 | 1:39 |
-| 31 | Science & Research Charts — Patterns & Geography | 3 | 1:42 |
-| 32 | Science & Research Charts — Distributions | 3 | 1:45 |
-| 33 | Data Types *(intro)* | 1 | 1:46 |
-| 34 | Quantitative — Continuous vs Discrete | 4 | 1:50 |
-| 35 | Categorical — Nominal vs Ordinal | 4 | 1:54 |
-| 36 | Temporal — Time-based Data | 3 | 1:57 |
-| 37 | Geospatial Data | 3 | 2:00 |
-| 38 | Why Data Types Matter | 3 | 2:03 |
-| 39 | The Data-Type Decision Tree | 5 | 2:08 |
-| 40 | FT Visual Vocab - Deviation | 2 | 2:10 |
-| 41 | FT Visual Vocab - Correlation | 2 | 2:12 |
-| 42 | FT Visual Vocab - Correlation (cont.) | 1 | 2:13 |
-| 43 | FT Visual Vocab - Change V Time | 2 | 2:15 |
-| 44 | FT Visual Vocab - Change V Time (cont.) | 1 | 2:16 |
-| 45 | FT Visual Vocab - Change V Time (cont.) | 1 | 2:17 |
-| 46 | FT Visual Vocab - Ranking | 2 | 2:19 |
-| 47 | FT Visual Vocab - Ranking (cont.) | 1 | 2:20 |
-| 48 | FT Visual Vocab - Distribution | 2 | 2:22 |
-| 49 | FT Visual Vocab - Distribution (cont.) | 1 | 2:23 |
-| 50 | FT Visual Vocab - Part Of Whole | 2 | 2:25 |
-| 51 | FT Visual Vocab - Part Of Whole (cont.) | 1 | 2:26 |
-| 52 | FT Visual Vocab - Part Of Whole (cont.) | 1 | 2:27 |
-| 53 | FT Visual Vocab - Magnitude | 2 | 2:29 |
-| 54 | FT Visual Vocab - Magnitude (cont.) | 1 | 2:30 |
-| 55 | FT Visual Vocab - Magnitude (cont.) | 1 | 2:31 |
-| 56 | FT Visual Vocab - Spatial | 2 | 2:33 |
-| 57 | FT Visual Vocab - Spatial (cont.) | 1 | 2:34 |
-| 58 | FT Visual Vocab - Flow | 2 | 2:36 |
-| 59 | **Hands-On** *(divider)* | 0.5 | 2:36 |
-| 60 | Sample Data from Ex01 | 3 | 2:40 |
-| 61 | Data Dictionary and Types | 4 | 2:44 |
-| 62 | 20 Analytical Questions for Ex01 | 8 | 2:52 |
-| 63 | Day 1 — Key Takeaways | 5 | 2:56 |
-| 64–65 | See You on Day 2 | 2 | 2:58 |
-</div>
-
-<div class="box" style="margin-top:16px; font-size:0.8em;">
-<strong>Pure slide time: ~2h 58min</strong> &nbsp;·&nbsp; +20 min Q&A &nbsp;·&nbsp; +15 min break &nbsp;·&nbsp; +10 min buffer &nbsp;=&nbsp; <strong>~3h 44min total</strong>
-</div>
