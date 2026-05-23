@@ -390,28 +390,43 @@ save(fig_box, "chart_box_plot_navy", w=600, h=500)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# BU – Bullet chart  (bands: <70 poor, 70–95 ok, >95 good)
+# BU – Bullet chart  (2 KPIs, bands: <70 poor, 70–95 ok, >95 good)
 # ═══════════════════════════════════════════════════════════════════════════════
 fig = go.Figure()
-# Bands in axis coordinates so they span the full bar height
-for x0, x1, col in [(0, 70, rgba(GRAY, 0.25)),
-                     (70, 95, rgba(GRAY, 0.50)),
-                     (95, 120, rgba(GRAY, 0.80))]:
-    fig.add_shape(type="rect", x0=x0, x1=x1, y0=-1, y1=1,
-                  xref="x", yref="y", fillcolor=col, line_width=0, layer="below")
-# Measure bar — 90% the height of the bands (bands span 2 units → width=1.8)
-fig.add_trace(go.Bar(
-    x=[90], y=[0], orientation='h',
-    marker_color=NAVY, marker_line_width=0, width=1.4,
-))
-# Target marker
-fig.add_shape(type="line", x0=100, x1=100, y0=-1, y1=1,
-              xref="x", yref="y", line=dict(color=ORANGE, width=4))
+
+kpis = [
+    dict(y= 0.5, measure=90, target=105),   # KPI A — strong, just past ok zone
+    dict(y=-0.5, measure=62, target= 95),   # KPI B — below target, in poor zone
+]
+BAND_HALF = 0.34   # half-height of each qualifier band row
+BAR_W     = 0.48   # y-width of each measure bar (thinner than single-KPI version)
+
+for kpi in kpis:
+    yc = kpi["y"]
+    y0, y1 = yc - BAND_HALF, yc + BAND_HALF
+    # Qualifier bands scoped to this KPI row
+    for x0, x1, col in [(0, 70, rgba(GRAY, 0.25)),
+                         (70, 95, rgba(GRAY, 0.50)),
+                         (95, 120, rgba(GRAY, 0.80))]:
+        fig.add_shape(type="rect", x0=x0, x1=x1, y0=y0, y1=y1,
+                      xref="x", yref="y", fillcolor=col, line_width=0, layer="below")
+    # Measure bar
+    fig.add_trace(go.Bar(
+        x=[kpi["measure"]], y=[yc], orientation='h',
+        marker_color=NAVY, marker_line_width=0, width=BAR_W,
+    ))
+    # Target marker (90 % of band height so it sits inside the bands)
+    fig.add_shape(type="line",
+                  x0=kpi["target"], x1=kpi["target"],
+                  y0=yc - BAND_HALF * 0.9, y1=yc + BAND_HALF * 0.9,
+                  xref="x", yref="y",
+                  line=dict(color=ORANGE, width=3))
+
 fig.update_layout(**L(
     xaxis=dict(**no_ax(), range=[0, 120]),
     yaxis=dict(**no_ax(), range=[-1, 1]),
 ))
-save(fig, "chart_bullet", w=640, h=220)
+save(fig, "chart_bullet", w=640, h=280)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
