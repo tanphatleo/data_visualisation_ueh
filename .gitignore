@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 *.pyo
 .claude/
-*.docx
-*.pdf
+data_visualisation_ueh_public/
 ~$*
+books/
+# Ignore HarvardX and researches folders
+HarvardX/
+researches/
