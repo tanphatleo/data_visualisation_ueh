@@ -57,7 +57,7 @@ style: |
     font-weight: 700;
     font-size: 1.45em;
     color: var(--navy);
-    border-left: 6px solid var(--orange);
+    border-left: 6px solid var(--orange-1);
     padding-left: 14px;
     margin: 0 0 24px 0;
     line-height: 1.3;
@@ -153,8 +153,8 @@ style: |
 
   /* ── Blockquote / callout ── */
   blockquote {
-    border-left: 5px solid var(--orange);
-    background: var(--orange-4);
+    border-left: 5px solid var(--navy);
+    background: var(--navy-4);
     margin: 16px 0;
     padding: 12px 20px;
     border-radius: 0 8px 8px 0;
@@ -198,8 +198,8 @@ style: |
     border-top: 5px solid var(--navy-1);
   }
   .card.warm {
-    background: var(--orange-4);
-    border-top-color: var(--orange);
+    background: var(--navy-4);
+    border-top-color: var(--navy);
   }
   .card.mid {
     background: var(--navy-4);
@@ -225,7 +225,7 @@ style: |
   /* ── Badge / pill ── */
   .badge {
     display: inline-block;
-    background: var(--orange);
+    background: var(--navy-2);
     color: var(--white);
     font-size: 0.72em;
     font-weight: 700;
@@ -543,6 +543,61 @@ fig.show()
 
 ---
 
+## Data Is Everywhere
+
+**Data is not just numbers in a spreadsheet.** Anything that is recorded — in any form — is data.
+
+<div class="cols3">
+
+<div class="card">
+
+### 🧾 Transactions
+Invoices, receipts, purchase orders, bank statements
+
+</div>
+
+<div class="card">
+
+### 🎙️ Recordings
+Audio calls, video footage, CCTV streams, meeting transcripts
+
+</div>
+
+<div class="card mid">
+
+### 📋 Logs
+Server logs, app events, user clicks, page views, error traces
+
+</div>
+
+<div class="card">
+
+### 🌡️ Sensors
+Temperature readings, GPS coordinates, heart rate, humidity
+
+</div>
+
+<div class="card">
+
+### 👤 Interactions
+Form submissions, survey responses, chat messages, search queries
+
+</div>
+
+<div class="card warm">
+
+### 📷 Media
+Photos, scans, X-rays, satellite imagery, documents
+
+</div>
+
+</div>
+
+
+> as long as it is captured and stored in any form of information storage — it is data.
+
+---
+
 ## Data · Information · Insight
 
 <div class="cols-1-2">
@@ -677,7 +732,7 @@ Information that drives **action** — the "so what?" answer.
 
 </div>
 
-<div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
 
 **What insight can you see from the data?**
 
@@ -947,12 +1002,6 @@ Data with a **location** component.
 
 **The data type determines the chart — not the other way around.**
 
-<div class="box">
-Trying to draw a line chart on nominal categories, or a donut chart on continuous data, produces charts that are meaningless — or actively misleading.
-</div>
-
-<br>
-
 | Data type | Examples | Suitable charts |
 |---|---|---|
 | **Continuous** | Revenue, temperature, height | Line, scatter, histogram |
@@ -1002,13 +1051,140 @@ For each column, classify as: Continuous · Discrete · Nominal · Ordinal · Te
 
 <span class="part-no">04</span>
 
-# How to Choose the Right Chart
+# Deep Dive into Charts
+
+## Bar/Column · Line · 
+
+---
+
+## Column Chart
+<img src="images/chart_deep_dive/bar_charts.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+
+### Compare across categories
+*inherently good for comparing totals.*
+
+
+---
+
+## Stacked Column Chart
+
+<div class="cols">
+<div>
+<img src="images/chart_deep_dive/stacked_bar_charts.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Compare across categories while showing components
+**Total & Series A** - can easily be compared between categories
+**Other Series** - can not be easily compared between categories
+
+</div>
+</div>
+
+---
+
+## Bar Chart
+
+<img src="images/chart_deep_dive/bar_charts_h.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+
+### Compare across categories
+*inherently good for Rankings.*
+
+---
+
+## 100 Stacked Bar Chart
+
+<img src="images/chart_deep_dive/100_Stack_bar_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+
+### Compositions of multiple categories
+*inherently good for Rankings.*
+
+---
+
+## Pie Chart are evil
+
+
+<div class="cols">
+<div>
+<img src="images/chart_deep_dive/pie_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Compositions - Part of a whole
+
+**Human are bad at angles/arc** - can not easily be compared between categories
+
+</div>
+</div>
+
+---
+
+## Pie Chart are sometime (rarely)... not so evil
+
+
+<div class="cols">
+<div>
+<img src="images/chart_deep_dive/pie_chart_not_evel.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Compositions - highlight only ONE component
+
+**Focus on ONE component** - assisted by callout
+
+</div>
+</div>
+
+---
+
+## Donut Chart
+
+
+<div class="cols">
+<div >
+<img src="images/chart_deep_dive/donut.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Compositions - highlight only ONE component
+**Focus on ONE component** - assisted by callout
+
+
+</div>
+</div>
+
+---
+
+
+## Waffle Chart
+
+
+<div class="cols">
+<div style="padding-left:20px;">
+<img src="images/chart_deep_dive/waffle_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Compositions - Parts of a whole
+**Squares allow easy counting**
+
+
+</div>
+</div>
+
+---
+
+<!-- _class: divider -->
+
+<span class="part-no">05</span>
+
+# How to Choose an Effective Chart
 
 ## Abela's Framework · FT Visual Vocabulary · Domain Examples
 
 ---
 
-## Two Frameworks for Chart Selection
+## Two (of many many) Frameworks for Chart Selection
 
 *There are many different frameworks. These just serve as guides and are **not rules written in stone***
 
@@ -1176,7 +1352,7 @@ Developed by the Financial Times visual journalism team. Covers **59 chart types
 
 ---
 
-## Finance Charts — Trends & Composition
+## Finance Charts
 
 <div class="cols4">
 <div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
@@ -1187,23 +1363,16 @@ Developed by the Financial Times visual journalism team. Covers **59 chart types
 <div class="chart-thumb-sm"><p>100% Stacked Area</p><img src="images/chart_types/chart_stacked_area_100.png"></div>
 <div class="chart-thumb-sm"><p>Area</p><img src="images/chart_types/chart03_area.png"></div>
 <div class="chart-thumb-sm"><p>Waterfall</p><img src="images/chart_types/chart06_waterfall.png"></div>
-</div>
+<div class="chart-thumb-sm"><p>Candlestick</p><img src="images/chart_types/chart07_candlestick.png"></div>
 
----
-## Finance Charts — KPI, Prices & Allocation
-
-<div class="cols3">
-<div class="chart-thumb-sm"><p>Candlestick — OHLC stock prices</p><img src="images/chart_types/chart07_candlestick.png"></div>
-<div class="chart-thumb-sm"><p>Bullet — KPI vs target</p><img src="images/chart_types/chart_bullet.png"></div>
-<div class="chart-thumb-sm"><p>Gauge — single KPI dial</p><img src="images/chart_types/chart_gauge.png"></div>
-<div class="chart-thumb-sm"><p>Treemap — portfolio / budget breakdown</p><img src="images/chart_types/chart08_treemap.png"></div>
-<div class="chart-thumb-sm"><p>Donut — asset / revenue mix</p><img src="images/chart_types/chart05_donut.png"></div>
-
+<div class="chart-thumb-sm"><p>Gauge</p><img src="images/chart_types/chart_gauge.png"></div>
+<div class="chart-thumb-sm"><p>Treemap</p><img src="images/chart_types/chart08_treemap.png"></div>
+<div class="chart-thumb-sm"><p>Donut</p><img src="images/chart_types/chart05_donut.png"></div>
 </div>
 
 ---
 
-## Sales & Marketing Charts — Comparison & Composition
+## Sales & Marketing Charts
 
 <div class="cols4">
 <div class="chart-thumb-sm"><p>Bar</p><img src="images/chart_types/chart01_bar.png"></div>
@@ -1214,43 +1383,27 @@ Developed by the Financial Times visual journalism team. Covers **59 chart types
 <div class="chart-thumb-sm"><p>Stacked Area</p><img src="images/chart_types/chart_stacked_area.png"></div>
 <div class="chart-thumb-sm"><p>Donut</p><img src="images/chart_types/chart05_donut.png"></div>
 <div class="chart-thumb-sm"><p>Radar</p><img src="images/chart_types/chart_radar.png"></div>
-</div>
-
----
-
-## Sales & Marketing Charts — Flow, Pipeline & Insights
-
-<div class="cols4">
 <div class="chart-thumb-sm"><p>Funnel</p><img src="images/chart_types/chart11_funnel.png"></div>
 <div class="chart-thumb-sm"><p>Alluvial</p><img src="images/chart_types/chart36_alluvial.png"></div>
 <div class="chart-thumb-sm"><p>Sankey</p><img src="images/chart_types/chart37_sankey.png"></div>
-<div class="chart-thumb-sm"><p>Heatmap</p><img src="images/chart_types/chart_heatmap.png"></div>
-<div class="chart-thumb-sm"><p>Treemap</p><img src="images/chart_types/chart08_treemap.png"></div>
 <div class="chart-thumb-sm"><p>Pictogram</p><img src="images/chart_types/chart_pictogram.png"></div>
 </div>
 
 ---
 
-## Science & Research Charts — Relationships & Patterns
+## Science & Research Charts
 
-<div class="cols3">
-<div class="chart-thumb-sm"><p>Scatter — correlation (2 variables)</p><img src="images/chart_types/chart09b_scatter_orange.png"></div>
-<div class="chart-thumb-sm"><p>Bubble — 3-variable relationship</p><img src="images/chart_types/chart10b_bubble_orange.png"></div>
-<div class="chart-thumb-sm"><p>Radar — multi-attribute profile</p><img src="images/chart_types/chart_radar.png"></div>
-<div class="chart-thumb-sm"><p>Heatmap — patterns across two dimensions</p><img src="images/chart_types/chart_heatmap.png"></div>
-<div class="chart-thumb-sm"><p>Choropleth — metric by region</p><img src="images/chart_types/chart_choropleth.png"></div>
-<div class="chart-thumb-sm"><p>Line — time-series tracking</p><img src="images/chart_types/chart02b_line_dual.png"></div>
-</div>
-
----
-
-## Science & Research Charts — Distributions
-
-<div class="cols3">
-<div class="chart-thumb-sm"><p>Histogram — frequency distribution</p><img src="images/chart_types/chart_histogram_orange.png"></div>
-<div class="chart-thumb-sm"><p>Histogram + KDE — with density curve</p><img src="images/chart_types/chart_histogram_line.png"></div>
-<div class="chart-thumb-sm"><p>CDF — cumulative probability</p><img src="images/chart_types/chart_cdf.png"></div>
-<div class="chart-thumb-sm"><p>Box Plot — median & spread</p><img src="images/chart_types/chart_box_plot_orange.png"></div>
+<div class="cols4">
+<div class="chart-thumb-sm"><p>Scatter</p><img src="images/chart_types/chart09b_scatter_orange.png"></div>
+<div class="chart-thumb-sm"><p>Bubble</p><img src="images/chart_types/chart10b_bubble_orange.png"></div>
+<div class="chart-thumb-sm"><p>Radar</p><img src="images/chart_types/chart_radar.png"></div>
+<div class="chart-thumb-sm"><p>Heatmap</p><img src="images/chart_types/chart_heatmap.png"></div>
+<div class="chart-thumb-sm"><p>Choropleth</p><img src="images/chart_types/chart_choropleth.png"></div>
+<div class="chart-thumb-sm"><p>Line</p><img src="images/chart_types/chart02b_line_dual.png"></div>
+<div class="chart-thumb-sm"><p>Histogram</p><img src="images/chart_types/chart_histogram_orange.png"></div>
+<div class="chart-thumb-sm"><p>Histogram + KDE</p><img src="images/chart_types/chart_histogram_line.png"></div>
+<div class="chart-thumb-sm"><p>CDF</p><img src="images/chart_types/chart_cdf.png"></div>
+<div class="chart-thumb-sm"><p>Box Plot</p><img src="images/chart_types/chart_box_plot_orange.png"></div>
 </div>
 
 ---
@@ -1650,3 +1803,30 @@ Yale University Library. (2024, August). Data visualization: Common types of dat
 
 </div>
 
+use the data in A1:D13 to create a chart, series 2019 and 2020 should be column, and Net Acc Diff should be a line, 
+use color A6A6A6 for the columns of 2019, and F68048 for columns of 2020. 
+set series overlap to 60% , gap width should be 50%. 
+
+format vertical axis text to show M instead of whole number, also format the data label, the axis should have no decimal
+
+Net Acc Diff should be a line, and the color should be 0D1A63, the line should be smooth. Net Acc Diff should be on the same vertical axis not the second one. 
+
+only show label for the month Dec.  also format the data label to use M but with 1 decimal place
+
+delete all grid lines
+
+set title to "Monthly Sales 2019 vs 2020 (EUR)" format the 2019 in the title to bold and color A6A6A6 and 2020 to bold and color F68048 
+
+delete the legend for the series
+
+
+    
+Day 1	Introduction	
+Day 2	Data processing + charts in excel	Finance
+Day 3	Data processing + charts in excel	Finance
+Day 4	Data processing + charts in python	Marketing
+Day 5	Capston 1	Finance
+Day 6	Data processing + charts in python	Marketing
+Day 7	Data processing + charts in python	Science
+Day 8	Data processing + charts in python	Science
+Day 9	Capston 2	Free Subject
