@@ -1174,6 +1174,76 @@ For each column, classify as: Continuous · Discrete · Nominal · Ordinal · Te
 
 ---
 
+
+## Line Chart
+
+<img src="images/chart_deep_dive/line_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+
+**Compare over Time more many categories**
+
+
+---
+
+
+
+## Line Area Chart
+
+
+
+<div class="cols">
+<div style="padding-left:20px;">
+<img src="images/chart_deep_dive/area_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Compare across categories while showing components
+
+
+
+</div>
+</div>
+
+
+---
+
+
+## Waterfall chart
+
+<div class="cols">
+<div style="padding-left:20px;">
+<img src="images/chart_deep_dive/waterfall.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Compositions with total line
+
+
+
+
+---
+
+
+## Scatter plot
+
+<img src="images/chart_deep_dive/line_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+
+**Compare over Time more many categories**
+
+
+---
+
+
+## Histogram
+
+<img src="images/chart_deep_dive/line_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+
+**Compare over Time more many categories**
+
+
+---
+
+
+
 <!-- _class: divider -->
 
 <span class="part-no">05</span>
