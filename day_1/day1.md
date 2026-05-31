@@ -1217,27 +1217,42 @@ For each column, classify as: Continuous · Discrete · Nominal · Ordinal · Te
 
 ### Compositions with total line
 
-
-
+</div>
+</div>
 
 ---
 
 
 ## Scatter plot
 
-<img src="images/chart_deep_dive/line_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+<div class="cols">
+<div style="padding-left:20px;">
+<img src="images/chart_deep_dive/scatter.png" style="max-width:100%; max-height:530px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
 
-**Compare over Time more many categories**
+### Relationship between 2 variable
+</div>
 
+</div>
 
 ---
 
 
 ## Histogram
 
-<img src="images/chart_deep_dive/line_chart.png" style="max-width:100%; max-height:530px; object-fit:contain;">
 
-**Compare over Time more many categories**
+<div class="cols">
+<div style="padding-left:20px;">
+<img src="images/chart_deep_dive/histogram.png" style="max-width:300px; max-height:300px; object-fit:contain;">
+</div>
+<div style="height:100%; display:flex; flex-direction:column; justify-content:center;">
+
+### Relationship between 2 variable
+</div>
+
+</div>
+
 
 
 ---

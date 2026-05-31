@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Data Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --font: 'Inter', system-ui, sans-serif;
+  --ink: #0f172a;
+  --ink2: #1e293b;
+  --ink3: #334155;
+  --muted: #64748b;
+  --faint: #94a3b8;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --indigo: #6366f1;
+  --indigo-d: #4f46e5;
+  --indigo-l: #eef2ff;
+  --green: #10b981;
+  --green-l: #d1fae5;
+  --amber: #f59e0b;
+  --amber-l: #fef3c7;
+  --rose: #f43f5e;
+  --rose-l: #ffe4e6;
+  --purple: #8b5cf6;
+  --cyan: #06b6d4;
+  --sh-sm: 0 1px 2px rgba(15,23,42,.04),0 1px 4px rgba(15,23,42,.06);
+  --sh-md: 0 4px 6px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.08);
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* HEADER */
+header{
+  background:var(--ink);
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,.25);
+}
+.header-inner{
+  max-width:1280px;
+  margin:0 auto;
+  padding:0 24px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.logo-mark{
+  width:28px;height:28px;
+  border-radius:8px;
+  background:linear-gradient(135deg,var(--indigo),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.logo-mark svg{width:16px;height:16px;}
+.logo-text{color:#fff;font-weight:700;font-size:.95rem;letter-spacing:-.02em;}
+.logo-text span{color:var(--indigo);}
+#hFile{
+  display:none;
+  margin-left:auto;
+  align-items:center;
+  gap:8px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r-sm);
+  padding:5px 10px;
+}
+#hFile.on{display:flex;}
+#hFile svg{color:var(--indigo);flex-shrink:0;}
+#hName{color:#e2e8f0;font-size:.78rem;font-weight:500;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* NAV */
+nav{
+  background:var(--ink2);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  max-width:1280px;
+  margin:0 auto;
+  padding:0 24px;
+  display:flex;
+  gap:2px;
+}
+.nav-btn{
+  background:none;
+  border:none;
+  color:var(--faint);
+  font-family:var(--font);
+  font-size:.82rem;
+  font-weight:500;
+  padding:11px 16px;
+  cursor:pointer;
+  position:relative;
+  transition:color .15s;
+  border-bottom:2px solid transparent;
+  letter-spacing:.01em;
+}
+.nav-btn:hover{color:#e2e8f0;}
+.nav-btn.active{color:#fff;border-bottom-color:var(--indigo);}
+
+/* MAIN */
+main{
+  flex:1;
+  max-width:1280px;
+  margin:0 auto;
+  width:100%;
+  padding:28px 24px 48px;
+}
+
+/* TABS */
+.tab{display:none;}
+.tab.active{display:block;}
+
+/* CARD */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  box-shadow:var(--sh-sm);
+  padding:24px;
+  margin-bottom:20px;
+}
+.card-head{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:20px;
+}
+.card-icon{
+  width:34px;height:34px;
+  border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.card-icon.indigo{background:var(--indigo-l);color:var(--indigo);}
+.card-icon.green{background:var(--green-l);color:var(--green);}
+.card-icon.amber{background:var(--amber-l);color:var(--amber);}
+.card-icon.purple{background:#f5f3ff;color:var(--purple);}
+.card-title{font-weight:600;font-size:.92rem;color:var(--ink);}
+.card-sub{font-size:.75rem;color:var(--muted);margin-top:2px;}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:64px 24px;}
+.empty-icon{
+  width:64px;height:64px;
+  border-radius:50%;
+  background:var(--indigo-l);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  color:var(--indigo);
+}
+.empty-title{font-weight:600;font-size:1rem;color:var(--ink2);margin-bottom:6px;}
+.empty-sub{font-size:.82rem;color:var(--muted);}
+
+/* UPLOAD ZONE */
+#uploadZone{
+  border:2px dashed var(--border);
+  border-radius:var(--r-xl);
+  padding:56px 32px;
+  text-align:center;
+  cursor:pointer;
+  transition:border-color .2s,background .2s;
+  background:#fdfdfe;
+}
+#uploadZone:hover,#uploadZone.drag-over{
+  border-color:var(--indigo);
+  background:var(--indigo-l);
+}
+.upload-icon-wrap{
+  width:72px;height:72px;
+  border-radius:50%;
+  background:var(--indigo-l);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  color:var(--indigo);
+  animation:pulse-ring 2.5s ease-in-out infinite;
+}
+@keyframes pulse-ring{
+  0%,100%{box-shadow:0 0 0 0 rgba(99,102,241,.35);}
+  50%{box-shadow:0 0 0 12px rgba(99,102,241,0);}
+}
+.upload-title{font-size:1.05rem;font-weight:600;color:var(--ink2);margin-bottom:8px;}
+.upload-sub{font-size:.82rem;color:var(--muted);margin-bottom:18px;}
+.upload-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--indigo);
+  color:#fff;
+  border:none;
+  border-radius:var(--r-md);
+  padding:9px 20px;
+  font-family:var(--font);
+  font-size:.82rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .15s,transform .1s;
+  box-shadow:0 2px 8px rgba(99,102,241,.4);
+}
+.upload-btn:hover{background:var(--indigo-d);transform:translateY(-1px);}
+.upload-formats{margin-top:14px;font-size:.72rem;color:var(--faint);}
+
+/* DATA CARD */
+#dataCard{display:none;}
+#dataCard .card-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+
+/* CHIPS */
+.chip{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;
+  border-radius:20px;
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.02em;
+}
+.chip-blue{background:#dbeafe;color:#1d4ed8;}
+.chip-purple{background:#ede9fe;color:#6d28d9;}
+.chip-green{background:var(--green-l);color:#065f46;}
+.chip-amber{background:var(--amber-l);color:#92400e;}
+.chip-rose{background:var(--rose-l);color:#9f1239;}
+
+/* TYPE BADGES */
+.type-num,.type-cat{
+  display:inline-flex;align-items:center;
+  font-size:.6rem;font-weight:700;
+  padding:1px 5px;border-radius:4px;
+  margin-left:4px;letter-spacing:.03em;
+}
+.type-num{background:#dbeafe;color:#1d4ed8;}
+.type-cat{background:var(--indigo-l);color:var(--indigo-d);}
+
+/* TABLE */
+.tbl-outer{border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);}
+.tbl-scroll{overflow-x:auto;max-height:480px;overflow-y:auto;}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+thead th{
+  background:var(--ink2);
+  color:#e2e8f0;
+  padding:10px 13px;
+  text-align:left;
+  font-weight:600;
+  font-size:.72rem;
+  letter-spacing:.03em;
+  position:sticky;top:0;
+  white-space:nowrap;
+  z-index:2;
+}
+tbody tr{transition:background .1s;}
+tbody tr:nth-child(even){background:#f8fafc;}
+tbody tr:hover{background:#f0f4ff;}
+tbody td{
+  padding:8px 13px;
+  border-bottom:1px solid var(--border);
+  color:var(--ink3);
+  max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+
+/* PAGINATION */
+.pg-bar{display:flex;align-items:center;gap:6px;margin-top:16px;flex-wrap:wrap;}
+.pg-btn{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:5px 10px;font-family:var(--font);font-size:.75rem;font-weight:500;
+  color:var(--ink3);cursor:pointer;transition:background .12s,border-color .12s;
+}
+.pg-btn:hover:not(:disabled){background:var(--indigo-l);border-color:var(--indigo);color:var(--indigo);}
+.pg-btn:disabled{opacity:.4;cursor:not-allowed;}
+#pgInfo{font-size:.75rem;color:var(--muted);margin:0 6px;}
+.pg-sz-wrap{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);}
+select.pg-sz-sel{
+  font-family:var(--font);font-size:.75rem;
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:4px 24px 4px 8px;color:var(--ink3);
+  background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center;
+  -webkit-appearance:none;appearance:none;cursor:pointer;
+}
+select.pg-sz-sel:focus{outline:2px solid var(--indigo);outline-offset:1px;}
+
+/* FORM SELECTS */
+.field-wrap{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.field-label{font-size:.78rem;font-weight:600;color:var(--ink3);white-space:nowrap;}
+select.field-sel{
+  font-family:var(--font);font-size:.82rem;
+  border:1.5px solid var(--border);border-radius:var(--r-md);
+  padding:7px 36px 7px 12px;color:var(--ink);
+  background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+  -webkit-appearance:none;appearance:none;cursor:pointer;
+  min-width:200px;transition:border-color .15s;
+}
+select.field-sel:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(99,102,241,.15);}
+
+/* KPI GRID */
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+  gap:10px;margin-bottom:20px;
+}
+.kpi{
+  background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--r-md);
+  padding:13px 10px;text-align:center;
+  transition:transform .15s,box-shadow .15s;cursor:default;
+}
+.kpi:hover{transform:translateY(-2px);box-shadow:var(--sh-md);}
+.kpi.p-sig{background:#f0fdf4;border-color:#86efac;}
+.kpi.p-nsig{background:#fff1f2;border-color:#fca5a5;}
+.kpi-v{font-size:1.05rem;font-weight:700;color:var(--ink);display:block;margin-bottom:4px;line-height:1.2;}
+.kpi-v.sm{font-size:.82rem;}
+.kpi-l{font-size:.62rem;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);display:block;}
+
+/* CHART TYPE PILLS */
+.ct-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.ct-pill{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:20px;
+  padding:5px 14px;font-family:var(--font);font-size:.75rem;font-weight:500;
+  color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+}
+.ct-pill:hover{border-color:var(--indigo);color:var(--indigo);}
+.ct-pill.active{background:var(--indigo);border-color:var(--indigo);color:#fff;font-weight:600;}
+
+/* CHART BOX */
+.chart-box{position:relative;height:340px;}
+
+/* CHECKBOX LISTS */
+.check-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:16px;}
+.check-item{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;
+  background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--r-sm);
+  cursor:pointer;transition:border-color .12s,background .12s;
+  font-size:.78rem;color:var(--ink3);
+}
+.check-item input[type=checkbox]{accent-color:var(--indigo);width:14px;height:14px;flex-shrink:0;}
+.check-item:has(input:checked){border-color:var(--indigo);background:var(--indigo-l);color:var(--indigo-d);}
+.section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin-bottom:10px;}
+
+/* COMPUTE BUTTON */
+.compute-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--indigo);color:#fff;border:none;border-radius:var(--r-md);
+  padding:10px 22px;font-family:var(--font);font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:background .15s,transform .1s;
+  box-shadow:0 2px 8px rgba(99,102,241,.35);margin-bottom:20px;
+}
+.compute-btn:hover{background:var(--indigo-d);transform:translateY(-1px);}
+
+/* AVERAGE RESULT */
+#avResult{display:none;}
+.av-table-wrap{border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);}
+.av-table-wrap table thead th{background:var(--ink2);color:#e2e8f0;padding:9px 13px;font-size:.72rem;text-align:left;font-weight:600;letter-spacing:.03em;}
+.av-table-wrap table tbody td{padding:7px 13px;border-bottom:1px solid var(--border);font-size:.78rem;color:var(--ink3);}
+.av-table-wrap table tbody tr:nth-child(even){background:#f8fafc;}
+.av-table-wrap table tbody tr:hover{background:#f0f4ff;}
+
+/* REGRESSION */
+.equation-card{
+  background:linear-gradient(135deg,#f5f3ff,#eef2ff);
+  border:1.5px solid #ddd6fe;border-radius:var(--r-lg);
+  text-align:center;padding:24px;margin-bottom:20px;
+}
+.equation-label{
+  font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--purple);font-weight:700;margin-bottom:10px;
+}
+.equation-formula{
+  font-family:'Courier New',monospace;font-size:1.6rem;font-weight:700;
+  color:var(--ink);word-break:break-all;
+}
+.eq-a{color:var(--indigo);}
+.eq-b{color:var(--rose);}
+
+/* CONCLUSION */
+.conclusion{
+  background:linear-gradient(160deg,#f8f9ff,#fafbff);
+  border:1.5px solid #e0e7ff;border-radius:var(--r-lg);
+  padding:24px;margin-top:20px;
+}
+.conc-head{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid #e0e7ff;
+}
+.conc-head-title{font-weight:700;font-size:.92rem;color:var(--ink);}
+.conc-row{
+  display:grid;grid-template-columns:180px 1fr;
+  border-bottom:1px solid #e8eeff;
+  padding:10px 0;font-size:.83rem;gap:12px;
+}
+.conc-row:last-child{border-bottom:none;}
+.conc-key{font-weight:600;color:var(--ink3);}
+.conc-val{color:var(--muted);line-height:1.5;}
+code.inline{
+  background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;
+  padding:1px 5px;font-family:'Courier New',monospace;font-size:.78em;color:var(--indigo-d);
+}
+.verdict{
+  display:flex;gap:12px;padding:14px 16px;
+  border-radius:var(--r-md);border:1.5px solid;
+  margin-top:16px;align-items:flex-start;
+}
+.verdict-icon{flex-shrink:0;width:20px;height:20px;margin-top:1px;}
+.verdict-text{font-size:.82rem;line-height:1.6;}
+.verdict-text strong{display:block;font-size:.85rem;margin-bottom:3px;}
+.v-good{background:#f0fdf4;border-color:#86efac;color:#166534;}
+.v-mod{background:#fffbeb;border-color:#fcd34d;color:#92400e;}
+.v-poor{background:#fff1f2;border-color:#fca5a5;color:#9f1239;}
+
+.info-row{
+  display:flex;gap:8px;margin-bottom:14px;
+  font-size:.78rem;color:var(--muted);align-items:center;flex-wrap:wrap;
+}
+
+/* FOOTER */
+footer{
+  background:var(--ink);color:var(--faint);font-size:.72rem;
+  padding:14px 24px;text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+footer svg{color:var(--muted);}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#94a3b8;}
+
+@media(max-width:640px){
+  .header-inner{padding:0 16px;}
+  main{padding:20px 16px 40px;}
+  .nav-inner{padding:0 16px;}
+  .nav-btn{padding:10px 12px;font-size:.78rem;}
+  .equation-formula{font-size:1.1rem;}
+  .conc-row{grid-template-columns:1fr;gap:2px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="9" width="3" height="6" rx="1" fill="white" opacity=".9"/>
+        <rect x="6" y="5" width="3" height="10" rx="1" fill="white"/>
+        <rect x="11" y="1" width="3" height="14" rx="1" fill="white" opacity=".75"/>
+      </svg>
+    </div>
+    <span class="logo-text">Data<span>Explorer</span></span>
+    <div id="hFile">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span id="hName">filename.csv</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="switchTab('general',this)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-.1em;margin-right:5px"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      Data Table
+    </button>
+    <button class="nav-btn" onclick="switchTab('stats',this)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-.1em;margin-right:5px"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Statistics
+    </button>
+    <button class="nav-btn" onclick="switchTab('average',this)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-.1em;margin-right:5px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Averages
+    </button>
+    <button class="nav-btn" onclick="switchTab('regression',this)">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-.1em;margin-right:5px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Regression
+    </button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- TAB: GENERAL -->
+  <div id="tab-general" class="tab active">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon indigo">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div>
+          <div class="card-title">Load your data file</div>
+          <div class="card-sub">Supports CSV, Excel (.xlsx, .xls), and JSON formats</div>
+        </div>
+      </div>
+      <div id="uploadZone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls,.json" style="display:none" onchange="handleFile(this.files[0])" />
+        <div class="upload-icon-wrap">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="upload-title">Drop your file here</div>
+        <div class="upload-sub">or click the button below to browse your computer</div>
+        <button class="upload-btn" onclick="event.stopPropagation();document.getElementById('fileInput').click()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Browse Files
+        </button>
+        <div class="upload-formats">CSV &nbsp;&middot;&nbsp; XLSX &nbsp;&middot;&nbsp; XLS &nbsp;&middot;&nbsp; JSON</div>
+      </div>
+    </div>
+
+    <div class="card" id="dataCard">
+      <div class="card-head">
+        <div class="card-icon green">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <div>
+          <div class="card-title" id="cardFilename">—</div>
+          <div class="card-sub" id="cardSub">—</div>
+          <div class="card-meta" id="cardMeta"></div>
+        </div>
+      </div>
+      <div class="tbl-outer">
+        <div class="tbl-scroll">
+          <table>
+            <thead><tr id="tHead"></tr></thead>
+            <tbody id="tBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pg-bar">
+        <button class="pg-btn" id="pgFirst" onclick="goPage(1)">&laquo; First</button>
+        <button class="pg-btn" id="pgPrev" onclick="goPage(CUR_PAGE-1)">&lsaquo; Prev</button>
+        <span id="pgInfo"></span>
+        <button class="pg-btn" id="pgNext" onclick="goPage(CUR_PAGE+1)">Next &rsaquo;</button>
+        <button class="pg-btn" id="pgLast" onclick="goPage(TOT_PAGES)">Last &raquo;</button>
+        <div class="pg-sz-wrap">
+          Rows per page:
+          <select id="pgSz" class="pg-sz-sel" onchange="CUR_PG_SZ=parseInt(this.value);CUR_PAGE=1;renderPage()">
+            <option value="25">25</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: STATS -->
+  <div id="tab-stats" class="tab">
+    <div id="st-empty" class="card">
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div class="empty-title">No data loaded</div>
+        <div class="empty-sub">Load a file in the Data Table tab to explore statistics</div>
+      </div>
+    </div>
+    <div id="st-body" style="display:none">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon indigo">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div>
+            <div class="card-title">Column Statistics</div>
+            <div class="card-sub">Descriptive statistics and distribution charts for each column</div>
+          </div>
+        </div>
+        <div class="field-wrap">
+          <span class="field-label">Column:</span>
+          <select id="stField" class="field-sel" onchange="updateStats()"></select>
+        </div>
+        <div id="stCtypes" class="ct-pills"></div>
+        <div id="stResult"></div>
+        <div class="chart-box">
+          <canvas id="stChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: AVERAGE -->
+  <div id="tab-average" class="tab">
+    <div id="av-empty" class="card">
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="empty-title">No data loaded</div>
+        <div class="empty-sub">Load a file in the Data Table tab to compute group averages</div>
+      </div>
+    </div>
+    <div id="av-body" style="display:none">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon amber">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">Group Averages</div>
+            <div class="card-sub">Group by categorical columns and compute mean of numeric columns</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:18px">
+          <div>
+            <div class="section-label">Group by (categorical)</div>
+            <div id="avCatList" class="check-cols"></div>
+          </div>
+          <div>
+            <div class="section-label">Compute average of (numeric)</div>
+            <div id="avNumList" class="check-cols"></div>
+          </div>
+        </div>
+        <button class="compute-btn" onclick="computeAverage()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Compute Averages
+        </button>
+        <div id="avResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: REGRESSION -->
+  <div id="tab-regression" class="tab">
+    <div id="rg-empty" class="card">
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="empty-title">No data loaded</div>
+        <div class="empty-sub">Load a file with at least two numeric columns to run linear regression</div>
+      </div>
+    </div>
+    <div id="rg-body" style="display:none">
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon purple">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <div class="card-title">Linear Regression</div>
+            <div class="card-sub">Ordinary least-squares regression with full diagnostic output</div>
+          </div>
+        </div>
+        <div class="field-wrap">
+          <span class="field-label">Y (dependent):</span>
+          <select id="rgY" class="field-sel" onchange="tryReg()"></select>
+          <span class="field-label" style="margin-left:8px">X (independent):</span>
+          <select id="rgX" class="field-sel" onchange="tryReg()"></select>
+        </div>
+        <div id="rgResult"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  All processing happens locally in your browser. No data is ever uploaded to any server.
+</footer>
+
+<script>
+// =========================================================
+//  STATE
+// =========================================================
+let DATA = null, COLS = [], TYPES = {};
+let CUR_PAGE = 1, CUR_PG_SZ = 50, TOT_PAGES = 1;
+let CHART_ST = null, CHART_RG = null;
+let ST_CTYPE = null;
+
+const PALETTE = [
+  'rgba(99,102,241,.7)',
+  'rgba(139,92,246,.7)',
+  'rgba(6,182,212,.7)',
+  'rgba(16,185,129,.7)',
+  'rgba(245,158,11,.7)',
+  'rgba(244,63,94,.7)',
+  'rgba(251,146,60,.7)',
+  'rgba(52,211,153,.7)',
+  'rgba(34,211,238,.7)',
+  'rgba(167,139,250,.7)',
+  'rgba(251,113,133,.7)',
+  'rgba(253,186,116,.7)'
+];
+
+// =========================================================
+//  DRAG & DROP
+// =========================================================
+(function initDrop() {
+  const zone = document.getElementById('uploadZone');
+  zone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    zone.classList.add('drag-over');
+  });
+  zone.addEventListener('dragleave', function() {
+    zone.classList.remove('drag-over');
+  });
+  zone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+})();
+
+// =========================================================
+//  switchTab
+// =========================================================
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// =========================================================
+//  handleFile
+// =========================================================
+function handleFile(file) {
+  if (!file) return;
+  const name = file.name;
+  const ext = name.split('.').pop().toLowerCase();
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    let rows = [];
+    try {
+      if (ext === 'json') {
+        const parsed = JSON.parse(e.target.result);
+        rows = Array.isArray(parsed) ? parsed : [parsed];
+      } else if (ext === 'csv') {
+        const wb = XLSX.read(e.target.result, { type: 'string' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+      } else {
+        const wb = XLSX.read(e.target.result, { type: 'binary' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+      }
+    } catch (err) {
+      alert('Error parsing file: ' + err.message);
+      return;
+    }
+    if (!rows.length) { alert('File appears to be empty.'); return; }
+
+    DATA = rows;
+    COLS = Object.keys(rows[0]);
+    TYPES = detectTypes(DATA, COLS);
+    CUR_PAGE = 1;
+    CUR_PG_SZ = parseInt(document.getElementById('pgSz').value) || 50;
+
+    // Header badge
+    document.getElementById('hName').textContent = name;
+    document.getElementById('hFile').classList.add('on');
+
+    // Card
+    document.getElementById('cardFilename').textContent = name;
+    const numCols = COLS.filter(function(c) { return TYPES[c] === 'numeric'; }).length;
+    const catCols = COLS.filter(function(c) { return TYPES[c] === 'categorical'; }).length;
+    document.getElementById('cardSub').textContent =
+      DATA.length.toLocaleString() + ' rows · ' + COLS.length + ' columns · ' + numCols + ' numeric · ' + catCols + ' categorical';
+    const meta = document.getElementById('cardMeta');
+    meta.innerHTML =
+      '<span class="chip chip-blue">' + DATA.length.toLocaleString() + ' rows</span>' +
+      '<span class="chip chip-purple">' + COLS.length + ' columns</span>' +
+      (numCols ? '<span class="chip chip-green">' + numCols + ' numeric</span>' : '') +
+      (catCols ? '<span class="chip chip-amber">' + catCols + ' categorical</span>' : '');
+    document.getElementById('dataCard').style.display = 'block';
+
+    renderPage();
+    setupStats();
+    setupAverage();
+    setupRegression();
+  };
+
+  if (ext === 'json' || ext === 'csv') {
+    reader.readAsText(file);
+  } else {
+    reader.readAsBinaryString(file);
+  }
+}
+
+// =========================================================
+//  detectTypes
+// =========================================================
+function detectTypes(data, cols) {
+  const types = {};
+  for (let ci = 0; ci < cols.length; ci++) {
+    const col = cols[ci];
+    let numCount = 0, total = 0;
+    for (let ri = 0; ri < data.length; ri++) {
+      const v = data[ri][col];
+      if (v === null || v === undefined || v === '') continue;
+      total++;
+      const n = parseFloat(v);
+      if (isFinite(n)) numCount++;
+    }
+    types[col] = (total > 0 && numCount / total >= 0.75) ? 'numeric' : 'categorical';
+  }
+  return types;
+}
+
+// =========================================================
+//  numVals / nullCnt / esc
+// =========================================================
+function numVals(col) {
+  const out = [];
+  for (let i = 0; i < DATA.length; i++) {
+    const v = parseFloat(DATA[i][col]);
+    if (isFinite(v)) out.push(v);
+  }
+  return out;
+}
+
+function nullCnt(col) {
+  let cnt = 0;
+  for (let i = 0; i < DATA.length; i++) {
+    const v = DATA[i][col];
+    if (v === null || v === undefined || v === '') cnt++;
+  }
+  return cnt;
+}
+
+function esc(v) {
+  return String(v == null ? '' : v)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// =========================================================
+//  renderPage
+// =========================================================
+function renderPage() {
+  TOT_PAGES = Math.max(1, Math.ceil(DATA.length / CUR_PG_SZ));
+  CUR_PAGE  = Math.min(Math.max(1, CUR_PAGE), TOT_PAGES);
+
+  // Header row
+  const tHead = document.getElementById('tHead');
+  let hHtml = '';
+  for (let i = 0; i < COLS.length; i++) {
+    const c = COLS[i];
+    const badge = TYPES[c] === 'numeric'
+      ? '<span class="type-num">#</span>'
+      : '<span class="type-cat">T</span>';
+    hHtml += '<th>' + esc(c) + badge + '</th>';
+  }
+  tHead.innerHTML = hHtml;
+
+  // Body
+  const start = (CUR_PAGE - 1) * CUR_PG_SZ;
+  const slice = DATA.slice(start, start + CUR_PG_SZ);
+  const tBody = document.getElementById('tBody');
+  let bHtml = '';
+  for (let r = 0; r < slice.length; r++) {
+    bHtml += '<tr>';
+    for (let c = 0; c < COLS.length; c++) {
+      const v = esc(slice[r][COLS[c]]);
+      bHtml += '<td title="' + v + '">' + v + '</td>';
+    }
+    bHtml += '</tr>';
+  }
+  tBody.innerHTML = bHtml;
+
+  // Pagination controls
+  document.getElementById('pgInfo').textContent =
+    'Page ' + CUR_PAGE + ' of ' + TOT_PAGES + ' (' + DATA.length.toLocaleString() + ' rows)';
+  document.getElementById('pgFirst').disabled = CUR_PAGE <= 1;
+  document.getElementById('pgPrev').disabled  = CUR_PAGE <= 1;
+  document.getElementById('pgNext').disabled  = CUR_PAGE >= TOT_PAGES;
+  document.getElementById('pgLast').disabled  = CUR_PAGE >= TOT_PAGES;
+}
+
+// =========================================================
+//  goPage
+// =========================================================
+function goPage(p) {
+  CUR_PAGE = Math.min(Math.max(1, p), TOT_PAGES);
+  renderPage();
+}
+
+// =========================================================
+//  calcStats
+// =========================================================
+function calcStats(vals) {
+  const n = vals.length;
+  if (!n) return { n:0, mean:NaN, std:NaN, min:NaN, q1:NaN, median:NaN, q3:NaN, max:NaN };
+  const sorted = vals.slice().sort(function(a,b){ return a-b; });
+  const mean = vals.reduce(function(s,v){ return s+v; }, 0) / n;
+  const variance = vals.reduce(function(s,v){ return s+(v-mean)*(v-mean); }, 0) / (n > 1 ? n-1 : 1);
+  const std = Math.sqrt(variance);
+
+  function quantile(arr, q) {
+    const pos = q * (arr.length - 1);
+    const lo  = Math.floor(pos), hi = Math.ceil(pos);
+    return arr[lo] + (arr[hi] - arr[lo]) * (pos - lo);
+  }
+  return {
+    n, mean, std,
+    min:    sorted[0],
+    q1:     quantile(sorted, 0.25),
+    median: quantile(sorted, 0.5),
+    q3:     quantile(sorted, 0.75),
+    max:    sorted[sorted.length - 1]
+  };
+}
+
+// =========================================================
+//  setupStats
+// =========================================================
+function setupStats() {
+  const sel = document.getElementById('stField');
+  sel.innerHTML = COLS.map(function(c) {
+    return '<option value="' + esc(c) + '">' + esc(c) + ' [' + TYPES[c] + ']</option>';
+  }).join('');
+  document.getElementById('st-empty').style.display = 'none';
+  document.getElementById('st-body').style.display = 'block';
+  ST_CTYPE = null;
+  updateStats();
+}
+
+// =========================================================
+//  updateStats
+// =========================================================
+function updateStats() {
+  const col  = document.getElementById('stField').value;
+  const type = TYPES[col];
+  const ctDiv = document.getElementById('stCtypes');
+
+  const numPills = [
+    { id:'hist',    label:'Histogram' },
+    { id:'line',    label:'ECDF Line' },
+    { id:'scatter', label:'Scatter'   }
+  ];
+  const catPills = [
+    { id:'bar-v',    label:'Bar (V)'   },
+    { id:'bar-h',    label:'Bar (H)'   },
+    { id:'pie',      label:'Pie'        },
+    { id:'doughnut', label:'Doughnut'  }
+  ];
+  const pills = type === 'numeric' ? numPills : catPills;
+  if (!ST_CTYPE || !pills.find(function(p){ return p.id === ST_CTYPE; })) {
+    ST_CTYPE = pills[0].id;
+  }
+  ctDiv.innerHTML = pills.map(function(p) {
+    return '<button class="ct-pill' + (ST_CTYPE === p.id ? ' active' : '') + '" onclick="pickCtype(\'' + p.id + '\',this)">' + p.label + '</button>';
+  }).join('');
+
+  // Stat cards
+  const stRes = document.getElementById('stResult');
+  const nc    = nullCnt(col);
+  const total = DATA.length;
+
+  function fmtN(v) {
+    if (!isFinite(v)) return '—';
+    if (Math.abs(v) >= 10000 || (Math.abs(v) < 0.001 && v !== 0)) return v.toExponential(3);
+    return parseFloat(v.toFixed(4)).toString();
+  }
+
+  if (type === 'numeric') {
+    const vals = numVals(col);
+    const s = calcStats(vals);
+    stRes.innerHTML = '<div class="kpi-grid">' +
+      '<div class="kpi"><span class="kpi-v">' + s.n.toLocaleString() + '</span><span class="kpi-l">Count</span></div>' +
+      '<div class="kpi"><span class="kpi-v">' + nc + '</span><span class="kpi-l">Null / Missing</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmtN(s.mean)   + '</span><span class="kpi-l">Mean</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmtN(s.std)    + '</span><span class="kpi-l">Std Dev</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmtN(s.min)    + '</span><span class="kpi-l">Min</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmtN(s.q1)     + '</span><span class="kpi-l">Q1 (25%)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmtN(s.median) + '</span><span class="kpi-l">Median</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmtN(s.q3)     + '</span><span class="kpi-l">Q3 (75%)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmtN(s.max)    + '</span><span class="kpi-l">Max</span></div>' +
+      '</div>';
+  } else {
+    const vals = DATA.map(function(r){ return String(r[col] == null ? '' : r[col]); }).filter(function(v){ return v !== ''; });
+    const freq = {};
+    vals.forEach(function(v){ freq[v] = (freq[v] || 0) + 1; });
+    const unique = Object.keys(freq).length;
+    const modeEntry = Object.entries(freq).sort(function(a,b){ return b[1]-a[1]; })[0];
+    const modeName = modeEntry ? modeEntry[0] : '—';
+    const modeCnt  = modeEntry ? modeEntry[1] : 0;
+    const modeFreq = modeEntry ? ((modeCnt / total) * 100).toFixed(1) + '%' : '—';
+    stRes.innerHTML = '<div class="kpi-grid">' +
+      '<div class="kpi"><span class="kpi-v">' + total.toLocaleString() + '</span><span class="kpi-l">Count</span></div>' +
+      '<div class="kpi"><span class="kpi-v">' + nc + '</span><span class="kpi-l">Null / Missing</span></div>' +
+      '<div class="kpi"><span class="kpi-v">' + unique + '</span><span class="kpi-l">Unique</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + esc(modeName) + '</span><span class="kpi-l">Mode</span></div>' +
+      '<div class="kpi"><span class="kpi-v">' + modeCnt + '</span><span class="kpi-l">Mode Count</span></div>' +
+      '<div class="kpi"><span class="kpi-v">' + modeFreq + '</span><span class="kpi-l">Mode Freq %</span></div>' +
+      '</div>';
+  }
+
+  drawStatsChart(ST_CTYPE, col);
+}
+
+// =========================================================
+//  pickCtype
+// =========================================================
+function pickCtype(id, btn) {
+  ST_CTYPE = id;
+  document.querySelectorAll('.ct-pill').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  drawStatsChart(id, document.getElementById('stField').value);
+}
+
+// =========================================================
+//  killSt
+// =========================================================
+function killSt() {
+  if (CHART_ST) { CHART_ST.destroy(); CHART_ST = null; }
+}
+
+// =========================================================
+//  drawStatsChart
+// =========================================================
+function drawStatsChart(ctype, col) {
+  killSt();
+  const canvas = document.getElementById('stChart');
+  const ctx    = canvas.getContext('2d');
+  const type   = TYPES[col];
+
+  if (type === 'numeric') {
+    const vals = numVals(col);
+    if (!vals.length) return;
+
+    if (ctype === 'hist') {
+      const bins = Math.min(30, Math.ceil(Math.sqrt(vals.length)));
+      const mn = Math.min.apply(null, vals);
+      const mx = Math.max.apply(null, vals);
+      const bw = (mx - mn) / bins || 1;
+      const counts = new Array(bins).fill(0);
+      vals.forEach(function(v) {
+        let idx = Math.floor((v - mn) / bw);
+        if (idx >= bins) idx = bins - 1;
+        counts[idx]++;
+      });
+      const labels = counts.map(function(_, i){ return (mn + i*bw).toFixed(2); });
+      CHART_ST = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label: col, data: counts, backgroundColor: PALETTE[0], borderColor: 'rgba(99,102,241,1)', borderWidth: 1, borderRadius: 3 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { maxTicksLimit: 10, font: { size: 10 } } }, y: { beginAtZero: true, ticks: { font: { size: 10 } } } } }
+      });
+
+    } else if (ctype === 'line') {
+      const sorted = vals.slice().sort(function(a,b){ return a-b; });
+      const data = sorted.map(function(v, i){ return { x: v, y: (i+1)/sorted.length }; });
+      CHART_ST = new Chart(ctx, {
+        type: 'line',
+        data: { datasets: [{ label: 'ECDF', data: data, borderColor: PALETTE[0], backgroundColor: 'rgba(99,102,241,.08)', borderWidth: 2, pointRadius: 0, fill: true, tension: 0 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { type: 'linear', ticks: { font: { size: 10 } } }, y: { beginAtZero: true, max: 1, ticks: { font: { size: 10 } } } } }
+      });
+
+    } else if (ctype === 'scatter') {
+      const data = vals.map(function(v, i){ return { x: i, y: v }; });
+      CHART_ST = new Chart(ctx, {
+        type: 'scatter',
+        data: { datasets: [{ label: col, data: data, backgroundColor: PALETTE[0], pointRadius: 3, pointHoverRadius: 5 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { font: { size: 10 } }, title: { display: true, text: 'Index', font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } } }
+      });
+    }
+
+  } else {
+    const vals = DATA.map(function(r){ return String(r[col] == null ? '' : r[col]); }).filter(function(v){ return v !== ''; });
+    const freq = {};
+    vals.forEach(function(v){ freq[v] = (freq[v]||0)+1; });
+    const sorted = Object.entries(freq).sort(function(a,b){ return b[1]-a[1]; }).slice(0, 20);
+    const labels = sorted.map(function(e){ return e[0]; });
+    const counts = sorted.map(function(e){ return e[1]; });
+    const colors = labels.map(function(_, i){ return PALETTE[i % PALETTE.length]; });
+
+    if (ctype === 'bar-v') {
+      CHART_ST = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label: col, data: counts, backgroundColor: colors, borderRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { font: { size: 10 }, maxRotation: 45 } }, y: { beginAtZero: true, ticks: { font: { size: 10 } } } } }
+      });
+    } else if (ctype === 'bar-h') {
+      CHART_ST = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label: col, data: counts, backgroundColor: colors, borderRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } } }
+      });
+    } else if (ctype === 'pie') {
+      CHART_ST = new Chart(ctx, {
+        type: 'pie',
+        data: { labels: labels, datasets: [{ data: counts, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 10 }, boxWidth: 12 } } } }
+      });
+    } else if (ctype === 'doughnut') {
+      CHART_ST = new Chart(ctx, {
+        type: 'doughnut',
+        data: { labels: labels, datasets: [{ data: counts, backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 10 }, boxWidth: 12 } } } }
+      });
+    }
+  }
+}
+
+// =========================================================
+//  setupAverage
+// =========================================================
+function setupAverage() {
+  const catCols = COLS.filter(function(c){ return TYPES[c] === 'categorical'; });
+  const numCols = COLS.filter(function(c){ return TYPES[c] === 'numeric'; });
+
+  document.getElementById('avCatList').innerHTML = catCols.length
+    ? catCols.map(function(c){ return '<label class="check-item"><input type="checkbox" class="av-cat" value="' + esc(c) + '" />' + esc(c) + '</label>'; }).join('')
+    : '<span style="color:var(--muted);font-size:.78rem">No categorical columns found</span>';
+
+  document.getElementById('avNumList').innerHTML = numCols.length
+    ? numCols.map(function(c){ return '<label class="check-item"><input type="checkbox" class="av-num" value="' + esc(c) + '" />' + esc(c) + '</label>'; }).join('')
+    : '<span style="color:var(--muted);font-size:.78rem">No numeric columns found</span>';
+
+  document.getElementById('av-empty').style.display = 'none';
+  document.getElementById('av-body').style.display  = 'block';
+  document.getElementById('avResult').style.display = 'none';
+}
+
+// =========================================================
+//  computeAverage
+// =========================================================
+function computeAverage() {
+  const catCols = Array.from(document.querySelectorAll('.av-cat:checked')).map(function(el){ return el.value; });
+  const numCols = Array.from(document.querySelectorAll('.av-num:checked')).map(function(el){ return el.value; });
+  const avRes   = document.getElementById('avResult');
+
+  if (!numCols.length) {
+    avRes.innerHTML = '<p style="color:var(--rose);font-size:.82rem;margin-top:4px">Please select at least one numeric column to average.</p>';
+    avRes.style.display = 'block';
+    return;
+  }
+
+  // Group
+  const groups = {};
+  for (let i = 0; i < DATA.length; i++) {
+    const row = DATA[i];
+    const key = catCols.length ? catCols.map(function(c){ return String(row[c] == null ? '' : row[c]); }).join(' | ') : '__all__';
+    if (!groups[key]) groups[key] = { _key: catCols.map(function(c){ return String(row[c] == null ? '' : row[c]); }), _rows: [] };
+    groups[key]._rows.push(row);
+  }
+
+  const headers = catCols.length
+    ? catCols.concat(numCols.map(function(c){ return 'Avg(' + c + ')'; })).concat(['N'])
+    : numCols.map(function(c){ return 'Avg(' + c + ')'; }).concat(['N']);
+
+  const tableRows = Object.values(groups).map(function(g) {
+    const means = numCols.map(function(c) {
+      const v = g._rows.map(function(r){ return parseFloat(r[c]); }).filter(function(x){ return isFinite(x); });
+      return v.length ? (v.reduce(function(s,x){ return s+x; },0)/v.length).toFixed(4) : '—';
+    });
+    return catCols.length
+      ? g._key.concat(means).concat([g._rows.length])
+      : means.concat([g._rows.length]);
+  });
+
+  const tableHtml = '<div class="av-table-wrap"><table><thead><tr>' +
+    headers.map(function(h){ return '<th>' + esc(h) + '</th>'; }).join('') +
+    '</tr></thead><tbody>' +
+    tableRows.map(function(r){ return '<tr>' + r.map(function(v){ return '<td>' + esc(v) + '</td>'; }).join('') + '</tr>'; }).join('') +
+    '</tbody></table></div>';
+
+  avRes.innerHTML =
+    '<div class="info-row">' +
+    '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
+    Object.keys(groups).length + ' group(s) · ' + DATA.length.toLocaleString() + ' total rows' +
+    '</div>' + tableHtml;
+  avRes.style.display = 'block';
+}
+
+// =========================================================
+//  setupRegression
+// =========================================================
+function setupRegression() {
+  const numCols = COLS.filter(function(c){ return TYPES[c] === 'numeric'; });
+  if (numCols.length < 2) {
+    document.getElementById('rg-empty').style.display = 'block';
+    document.getElementById('rg-body').style.display  = 'none';
+    return;
+  }
+  const opts = numCols.map(function(c){ return '<option value="' + esc(c) + '">' + esc(c) + '</option>'; }).join('');
+  document.getElementById('rgY').innerHTML = opts;
+  document.getElementById('rgX').innerHTML = opts;
+  document.getElementById('rgX').selectedIndex = 1;
+  document.getElementById('rg-empty').style.display = 'none';
+  document.getElementById('rg-body').style.display  = 'block';
+  tryReg();
+}
+
+// =========================================================
+//  tryReg
+// =========================================================
+function tryReg() {
+  const yCol = document.getElementById('rgY').value;
+  const xCol = document.getElementById('rgX').value;
+  const res  = document.getElementById('rgResult');
+
+  if (yCol === xCol) {
+    res.innerHTML = '<p style="color:var(--rose);font-size:.82rem;margin-top:4px">Y and X must be different columns.</p>';
+    return;
+  }
+
+  const pairs = [];
+  for (let i = 0; i < DATA.length; i++) {
+    const x = parseFloat(DATA[i][xCol]);
+    const y = parseFloat(DATA[i][yCol]);
+    if (isFinite(x) && isFinite(y)) pairs.push([x, y]);
+  }
+  if (pairs.length < 3) {
+    res.innerHTML = '<p style="color:var(--rose);font-size:.82rem;margin-top:4px">Not enough valid numeric pairs (need ≥ 3).</p>';
+    return;
+  }
+
+  const xs = pairs.map(function(p){ return p[0]; });
+  const ys = pairs.map(function(p){ return p[1]; });
+  const reg = linReg(xs, ys);
+  renderReg(reg, xCol, yCol, xs, ys);
+}
+
+// =========================================================
+//  linReg
+// =========================================================
+function linReg(xs, ys) {
+  const n  = xs.length;
+  const mx = xs.reduce(function(s,v){ return s+v; },0) / n;
+  const my = ys.reduce(function(s,v){ return s+v; },0) / n;
+
+  let Sxx = 0, Sxy = 0, SST = 0;
+  for (let i = 0; i < n; i++) {
+    Sxx += (xs[i]-mx)*(xs[i]-mx);
+    Sxy += (xs[i]-mx)*(ys[i]-my);
+    SST += (ys[i]-my)*(ys[i]-my);
+  }
+
+  const a = Sxx !== 0 ? Sxy / Sxx : 0; // slope
+  const b = my - a * mx;                // intercept
+
+  let SSR = 0, SSE = 0;
+  for (let i = 0; i < n; i++) {
+    const yhat = a*xs[i] + b;
+    SSR += (yhat-my)*(yhat-my);
+    SSE += (ys[i]-yhat)*(ys[i]-yhat);
+  }
+
+  const R2  = SST !== 0 ? SSR / SST : 0;
+  const r   = Math.sign(a) * Math.sqrt(Math.max(0, R2));
+  const df  = n - 2;
+  const SE  = df > 0 ? Math.sqrt(SSE / df) : 0;
+
+  // sum of squares of x values needed for SEb
+  const SumX2 = xs.reduce(function(s,v){ return s+v*v; }, 0);
+  const SEa = Sxx !== 0 ? SE / Math.sqrt(Sxx) : 0;
+  const SEb = (Sxx !== 0 && n > 0) ? SE * Math.sqrt(SumX2 / (n * Sxx)) : 0;
+
+  const tSlope = SEa !== 0 ? a / SEa : 0;
+  const tIntcp = SEb !== 0 ? b / SEb : 0;
+  const pSlope = tPvalue(tSlope, df);
+  const pIntcp = tPvalue(tIntcp, df);
+
+  return { n, a, b, R2, r, SST, SSR, SSE, SE, SEa, SEb, tSlope, tIntcp, pSlope, pIntcp };
+}
+
+// =========================================================
+//  renderReg
+// =========================================================
+function renderReg(reg, xCol, yCol, xs, ys) {
+  const { n, a, b, R2, r, SST, SSR, SSE, SE, SEa, SEb, tSlope, tIntcp, pSlope, pIntcp } = reg;
+
+  function fmt(v, d) {
+    d = d == null ? 4 : d;
+    if (!isFinite(v)) return '—';
+    if (Math.abs(v) >= 10000 || (Math.abs(v) < 0.001 && v !== 0)) return v.toExponential(3);
+    return parseFloat(v.toFixed(d)).toString();
+  }
+
+  const bAbs  = Math.abs(b);
+  const aSign = b >= 0 ? '+' : '−';
+
+  const html =
+    '<div class="equation-card">' +
+      '<div class="equation-label">Regression Equation</div>' +
+      '<div class="equation-formula">' +
+        '<em>' + esc(yCol) + '</em> = <span class="eq-a">' + fmt(a) + '</span> &middot; <em>' + esc(xCol) + '</em> <span class="eq-b">' + aSign + ' ' + fmt(bAbs) + '</span>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="kpi-grid">' +
+      '<div class="kpi"><span class="kpi-v">' + n.toLocaleString() + '</span><span class="kpi-l">n</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(a) + '</span><span class="kpi-l">Slope (a)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(b) + '</span><span class="kpi-l">Intercept (b)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(R2) + '</span><span class="kpi-l">R²</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(r)  + '</span><span class="kpi-l">r (Pearson)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(SE) + '</span><span class="kpi-l">SE (Residual)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(SEa) + '</span><span class="kpi-l">SE Slope</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(SEb) + '</span><span class="kpi-l">SE Intercept</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(tSlope,3) + '</span><span class="kpi-l">t (Slope)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(tIntcp,3) + '</span><span class="kpi-l">t (Intercept)</span></div>' +
+      '<div class="kpi ' + (pSlope < 0.05 ? 'p-sig' : 'p-nsig') + '"><span class="kpi-v sm">' + fmtP(pSlope) + '</span><span class="kpi-l">p (Slope)</span></div>' +
+      '<div class="kpi ' + (pIntcp < 0.05 ? 'p-sig' : 'p-nsig') + '"><span class="kpi-v sm">' + fmtP(pIntcp) + '</span><span class="kpi-l">p (Intercept)</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(SSR) + '</span><span class="kpi-l">SSR</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(SSE) + '</span><span class="kpi-l">SSE</span></div>' +
+      '<div class="kpi"><span class="kpi-v sm">' + fmt(SST) + '</span><span class="kpi-l">SST</span></div>' +
+    '</div>' +
+
+    '<div class="chart-box"><canvas id="rgChart"></canvas></div>' +
+
+    buildConclusion(reg, xCol, yCol);
+
+  document.getElementById('rgResult').innerHTML = html;
+
+  // Destroy previous chart
+  if (CHART_RG) { CHART_RG.destroy(); CHART_RG = null; }
+
+  const scatterData = xs.map(function(x, i){ return { x: x, y: ys[i] }; });
+  const xMin = Math.min.apply(null, xs);
+  const xMax = Math.max.apply(null, xs);
+  const lineData = [{ x: xMin, y: a*xMin+b }, { x: xMax, y: a*xMax+b }];
+
+  const ctx = document.getElementById('rgChart').getContext('2d');
+  CHART_RG = new Chart(ctx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: yCol + ' vs ' + xCol,
+          data: scatterData,
+          backgroundColor: 'rgba(99,102,241,.45)',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          order: 1
+        },
+        {
+          label: 'Regression line',
+          data: lineData,
+          type: 'line',
+          borderColor: 'rgba(244,63,94,.9)',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+          order: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 14 } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.datasetIndex === 1) return null;
+              function fmtTip(v) {
+                if (!isFinite(v)) return '—';
+                return parseFloat(v.toFixed(3)).toString();
+              }
+              return '(' + fmtTip(ctx.parsed.x) + ', ' + fmtTip(ctx.parsed.y) + ')';
+            }
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: xCol, font: { size: 11 } }, ticks: { font: { size: 10 } } },
+        y: { title: { display: true, text: yCol, font: { size: 11 } }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+// =========================================================
+//  buildConclusion
+// =========================================================
+function buildConclusion(reg, xCol, yCol) {
+  const { n, a, b, R2, r, SE, pSlope, tSlope } = reg;
+  const df = n - 2;
+
+  function fmt(v, d) {
+    d = d == null ? 4 : d;
+    if (!isFinite(v)) return '—';
+    if (Math.abs(v) >= 10000 || (Math.abs(v) < 0.001 && v !== 0)) return v.toExponential(3);
+    return parseFloat(v.toFixed(d)).toString();
+  }
+
+  const r2qual = R2 >= 0.9 ? 'Very strong fit'
+               : R2 >= 0.7 ? 'Strong fit'
+               : R2 >= 0.5 ? 'Moderate fit'
+               : R2 >= 0.3 ? 'Weak fit'
+               : 'Very weak fit';
+
+  const rAbs = Math.abs(r);
+  const rDir = r >= 0 ? 'positive' : 'negative';
+  const rStr = rAbs >= 0.9 ? 'very strong'
+             : rAbs >= 0.7 ? 'strong'
+             : rAbs >= 0.5 ? 'moderate'
+             : rAbs >= 0.3 ? 'weak'
+             : 'very weak';
+
+  const slopeInterp = 'For each unit increase in <code class="inline">' + esc(xCol) + '</code>, <code class="inline">' + esc(yCol) + '</code> changes by <code class="inline">' + fmt(a) + '</code> units on average.';
+
+  const isSig = pSlope < 0.05;
+  const sigText = isSig
+    ? 'The slope is <strong>statistically significant</strong> (p = ' + fmtP(pSlope) + ', t = ' + fmt(tSlope,3) + ', df = ' + df + ').'
+    : 'The slope is <strong>not statistically significant</strong> (p = ' + fmtP(pSlope) + ', t = ' + fmt(tSlope,3) + ', df = ' + df + ').';
+
+  let verdictClass, verdictIcon, verdictTitle, verdictText;
+  if (R2 >= 0.7 && pSlope < 0.05) {
+    verdictClass = 'v-good';
+    verdictIcon  = '<svg class="verdict-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    verdictTitle = 'Good model fit';
+    verdictText  = 'R² = ' + fmt(R2) + ' — the model explains ' + (R2*100).toFixed(1) + '% of variance in ' + esc(yCol) + ', and the relationship is statistically significant.';
+  } else if (R2 >= 0.3 && pSlope < 0.05) {
+    verdictClass = 'v-mod';
+    verdictIcon  = '<svg class="verdict-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/><circle cx="12" cy="12" r="10"/></svg>';
+    verdictTitle = 'Moderate model fit';
+    verdictText  = 'R² = ' + fmt(R2) + ' — the model explains ' + (R2*100).toFixed(1) + '% of variance. Statistically significant but predictive power is moderate.';
+  } else {
+    verdictClass = 'v-poor';
+    verdictIcon  = '<svg class="verdict-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    verdictTitle = 'Weak model fit';
+    verdictText  = 'R² = ' + fmt(R2) + ' — the model explains only ' + (R2*100).toFixed(1) + '% of variance. ' + (isSig ? 'The relationship is significant but weak.' : 'The relationship is not statistically significant.');
+  }
+
+  const bAbs  = Math.abs(b);
+  const aSign = b >= 0 ? '+' : '−';
+
+  return '<div class="conclusion">' +
+    '<div class="conc-head">' +
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' +
+      '<div class="conc-head-title">Model Interpretation</div>' +
+    '</div>' +
+    '<div class="conc-rows">' +
+      '<div class="conc-row"><div class="conc-key">Model equation</div><div class="conc-val"><code class="inline">' + esc(yCol) + ' = ' + fmt(a) + ' · ' + esc(xCol) + ' ' + aSign + ' ' + fmt(bAbs) + '</code></div></div>' +
+      '<div class="conc-row"><div class="conc-key">R² fit quality</div><div class="conc-val"><strong>' + fmt(R2) + '</strong> — ' + r2qual + '. The model accounts for ' + (R2*100).toFixed(1) + '% of the total variance in <code class="inline">' + esc(yCol) + '</code>.</div></div>' +
+      '<div class="conc-row"><div class="conc-key">Correlation (r)</div><div class="conc-val"><strong>' + fmt(r) + '</strong> — ' + rStr + ' ' + rDir + ' linear relationship between <code class="inline">' + esc(xCol) + '</code> and <code class="inline">' + esc(yCol) + '</code>.</div></div>' +
+      '<div class="conc-row"><div class="conc-key">Slope interpretation</div><div class="conc-val">' + slopeInterp + '</div></div>' +
+      '<div class="conc-row"><div class="conc-key">Intercept</div><div class="conc-val">When <code class="inline">' + esc(xCol) + '</code> = 0, the predicted value of <code class="inline">' + esc(yCol) + '</code> is <code class="inline">' + fmt(b) + '</code>.</div></div>' +
+      '<div class="conc-row"><div class="conc-key">Statistical significance</div><div class="conc-val">' + sigText + '</div></div>' +
+      '<div class="conc-row"><div class="conc-key">Prediction accuracy</div><div class="conc-val">Residual standard error: <code class="inline">' + fmt(SE) + '</code> units. Predictions typically fall within ±' + fmt(SE*2) + ' of the actual value.</div></div>' +
+    '</div>' +
+    '<div class="verdict ' + verdictClass + '">' +
+      verdictIcon +
+      '<div class="verdict-text"><strong>' + verdictTitle + '</strong>' + verdictText + '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// =========================================================
+//  MATH UTILITIES
+// =========================================================
+
+// Lanczos lgamma
+function lgamma(x) {
+  const g = 7;
+  const c = [
+    0.99999999999980993,
+    676.5203681218851,
+    -1259.1392167224028,
+    771.32342877765313,
+    -176.61502916214059,
+    12.507343278686905,
+    -0.13857109526572012,
+    9.9843695780195716e-6,
+    1.5056327351493116e-7
+  ];
+  if (x < 0.5) {
+    return Math.log(Math.PI / Math.sin(Math.PI * x)) - lgamma(1 - x);
+  }
+  x -= 1;
+  let acc = c[0];
+  const t = x + g + 0.5;
+  for (let i = 1; i < g + 2; i++) acc += c[i] / (x + i);
+  return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(acc);
+}
+
+// Continued fraction for regularised incomplete beta
+function betaCF(x, a, b) {
+  const MAXIT = 200, EPS = 3e-7, FPMIN = 1e-30;
+  const qab = a + b, qap = a + 1, qam = a - 1;
+  let c = 1, d = 1 - qab * x / qap;
+  if (Math.abs(d) < FPMIN) d = FPMIN;
+  d = 1 / d;
+  let h = d;
+  for (let m = 1; m <= MAXIT; m++) {
+    const m2 = 2 * m;
+    let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+    d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+    c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+    d = 1 / d; h *= d * c;
+    aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+    d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+    c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+    d = 1 / d;
+    const del = d * c;
+    h *= del;
+    if (Math.abs(del - 1) < EPS) break;
+  }
+  return h;
+}
+
+// Regularised incomplete beta
+function betaInc(x, a, b) {
+  if (x < 0 || x > 1) return NaN;
+  if (x === 0 || x === 1) return x;
+  const lbeta = lgamma(a) + lgamma(b) - lgamma(a + b);
+  const bt = Math.exp(Math.log(x) * a + Math.log(1 - x) * b - lbeta);
+  if (x < (a + 1) / (a + b + 2))
+    return bt * betaCF(x, a, b) / a;
+  return 1 - bt * betaCF(1 - x, b, a) / b;
+}
+
+// Two-tailed p-value from t-distribution
+function tPvalue(t, df) {
+  if (!isFinite(t) || df <= 0) return NaN;
+  const x = df / (df + t * t);
+  return betaInc(x, df / 2, 0.5);
+}
+
+// Format p-value with significance stars
+function fmtP(p) {
+  if (!isFinite(p)) return '—';
+  let stars = '';
+  if      (p < 0.001) stars = ' ✦✦✦';
+  else if (p < 0.01)  stars = ' ✦✦';
+  else if (p < 0.05)  stars = ' ✦';
+  if (p < 0.0001) return '<0.0001' + stars;
+  return p.toFixed(4) + stars;
+}
+</script>
+</body>
+</html>
